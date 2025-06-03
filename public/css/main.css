@@ -1,0 +1,44 @@
+.filter-container {
+width: 100%; 
+border-collapse: collapse; 
+background-color: #f9f9f9;
+padding: 20px;
+}
+
+.doctor-header {
+background-image: url(../../storage/app/public/b8.jpg);
+text-align: center; 
+padding: 20px; 
+background-size: 100% auto;
+background-repeat: no-repeat;
+background-position: center;
+}
+
+.secretaria-header{
+background-image: url(../../storage/app/public/b3.jpg);
+background-size: 100% auto;
+background-repeat: no-repeat;
+background-position: center;
+}
+
+h1 {
+font-size: 5rem;
+text-align: left;
+font-weight: bold; 
+color: #2c3e50;
+margin: 10px 20px;
+}
+h3 {
+font-size: 3.5rem; 
+text-align: left;
+color: #34495e; 
+margin: 5px 20px; 
+}
+
+p {
+font-size: 2rem; 
+text-align: left;
+color: #7f8c8d; 
+margin: 15px 20px;
+}
+
