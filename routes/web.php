@@ -5,7 +5,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ClientesController;
 
 Route::get('/', function () {
-    return view('modulos.users.Ingresar');
+    return view('modulos.users.ingresar');
 });
 
 // Route::get('CrearUsuario',[UsersController::class,'create']);
