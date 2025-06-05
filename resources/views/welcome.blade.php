@@ -189,17 +189,13 @@
 </script>
 
 @php
-    $exp = explode('/',$_SERVER["REQUEST_URI"]);
+    $exp = explode('/', $_SERVER["REQUEST_URI"]);
 @endphp
 
-@if ($exp[3] == 'Editar-Usuario')
-
-  <script type="text/javascript">
-
-    $('#EditarUsuario').modal('toggle');
-
-  </script>
-
+@if (isset($exp[3]) && $exp[3] == 'Editar-Usuario')
+    <script type="text/javascript">
+        $('#EditarUsuario').modal('toggle');
+    </script>
 @endif
 
 <script type="text/javascript">
