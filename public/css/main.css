@@ -28,7 +28,7 @@ font-weight: bold;
 color: #2c3e50;
 margin: 10px 20px;
 }
-h3 {
+h3.saludo {
 font-size: 3.5rem; 
 text-align: left;
 color: #34495e; 

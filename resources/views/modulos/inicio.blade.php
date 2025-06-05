@@ -64,7 +64,7 @@
                     @elseif(auth()->user()->rol == 'doctor')
                         <div class="filter-container doctor-header">
 
-                            <h3 >Bienvenido!</h3>
+                            <h3 class="saludo">Bienvenido!</h3>
                             <h1>{{ auth()->user()->name }}.</h1>
                             <p>
                                 Gracias por unirse a nosotros. ¡Siempre estamos tratando de ofrecer un servicio completo!<br>
@@ -82,7 +82,7 @@
                         
                         <div class="filter-container secretaria-header">
 
-                            <h3>¡Bienvenida!</h3>
+                            <h3 class="saludo">¡Bienvenida!</h3>
                             <h1>{{ auth()->user()->name }}.</h1>
                             <p>
                                 Gracias por tu trabajo. Desde este panel puedes gestionar fácilmente las citas de los pacientes, 
