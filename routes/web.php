@@ -42,3 +42,13 @@ Route::put('Estado/{id_doctor}',[CitasController::class,'CambiarEstado']);
 //Citas
 Route::get('Citas',[CitasController::class,'index']);
 Route::get('Calendario/{id_doctor}',[CitasController::class,'Calendario']);
+Route::post('Calendario/{id_doctor}',[CitasController::class,'AgendarCita']);
+Route::delete('Cancelar-Cita',[CitasController::class,'CancelarCita']);
+
+Route::get('Citas-Hoy/{id_doctor}',[CitasController::class,'VerCitasHoy']);
+Route::post('Citas-Hoy/{id_doctor}',[CitasController::class,'CambiarEstadoCita']);
+Route::get('Cita/{id_cita}',[CitasController::class,'VerCita']);
+Route::post('Finalizar-Cita/{id_cita}',[CitasController::class,'FinalizarCita']);
+
+//Historial
+Route::post('Cita/{id_cita}',[CitasController::class,'HistorialCita']);

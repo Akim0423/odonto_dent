@@ -76,9 +76,14 @@
                                     @endif
 
                                     <td>
-
-                                        <button class="btn btn-warning">Ver Citas Hoy</button>
-                                        <button class="btn btn-primary">Ver Agenda Completa</button>
+                                        <a href="{{url('Citas-Hoy/'.$doctor->id)}}">
+                                            <button class="btn btn-warning">Ver Citas Hoy</button>
+                                        </a>
+                                        
+                                        <a href="{{url('Calendario/'.$doctor->id)}}">
+                                            <button class="btn btn-primary">Ver Agenda Completa</button>
+                                        </a>
+                                        
 
                                     </td>
                                 </tr>

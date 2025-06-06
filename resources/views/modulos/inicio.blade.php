@@ -65,8 +65,8 @@
                         <div class="filter-container doctor-header">
 
                             <h3 class="saludo">Bienvenido!</h3>
-                            <h1>{{ auth()->user()->name }}.</h1>
-                            <p>
+                            <h1 class="nombre">{{ auth()->user()->name }}.</h1>
+                            <p class="bienvenida">
                                 Gracias por unirse a nosotros. ¡Siempre estamos tratando de ofrecer un servicio completo!<br>
                                 Puedes ver tu agenda diaria y llegar a cita con el paciente desde casa.<br><br>
                             </p>
@@ -83,8 +83,8 @@
                         <div class="filter-container secretaria-header">
 
                             <h3 class="saludo">¡Bienvenida!</h3>
-                            <h1>{{ auth()->user()->name }}.</h1>
-                            <p>
+                            <h1 class="nombre">{{ auth()->user()->name }}.</h1>
+                            <p class="bienvenida">
                                 Gracias por tu trabajo. Desde este panel puedes gestionar fácilmente las citas de los pacientes, 
                                 coordinar con los doctores y mantener actualizada la agenda del consultorio.<br><br>
                                 Recuerda confirmar las citas del día y registrar nuevos pacientes cuando sea necesario.<br><br>

@@ -63,7 +63,12 @@
     @if(Auth::user())
         <div class="wrapper">
             @include('modulos.cabecera')
-            @include('modulos.menu')
+
+            @if (auth()->user()->rol == 'doctor')
+                @include('modulos.menuDoc')
+            @else
+                @include('modulos.menu')
+            @endif
 
             @yield('contenido')
         </div>    
@@ -159,6 +164,8 @@
 
   $(".select2").select2();
 
+  CKEDITOR.replace('editor');
+
 </script>
 
 <!--ALERTAS-->
@@ -186,6 +193,24 @@
   @elseif(session('DoctorCreado')=='OK')
       Swal.fire(
         'El Doctor ha sido Agregado',
+        '',
+        'success'
+      )
+  @elseif(session('CitaAgendada')=='OK')
+      Swal.fire(
+        'La Cita ha sido Agendada',
+        '',
+        'success'
+      )
+  @elseif(session('HistorialAgredado')=='OK')
+      Swal.fire(
+        'El Historial ha sido Agregado',
+        '',
+        'success'
+      )
+  @elseif(session('HistorialActualizado')=='OK')
+      Swal.fire(
+        'El Historial ha sido Actualizado',
         '',
         'success'
       )
@@ -231,6 +256,136 @@
   })
 
 </script>
+
+<!-- Calendario -->
+@if ($exp[3] == 'Calendario')
+
+  <script type="text/javascript">
+
+    var date= new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var a = date.getFullYear();
+
+    $("#calendario").fullCalendar({
+
+      defaultView: 'agendaWeek',
+      hiddenDays: [0],
+
+      events: [
+
+          @foreach($citas as $cita)
+
+              @foreach($clientes as $cliente)
+
+                @if($cita->id_cliente == $cliente->id)
+
+                  @if($cita->estado == 'Solicitada')
+
+                    {
+                      id: '{{$cita->id}}',
+                      title: '{{$cliente->nombre}} - {{$cliente->documento}} | {{$cita->estado}}',
+                      start: '{{$cita->inicio}}',
+                      end: '{{$cita->fin}}', 
+                      backgroundColor: '#1C72FF',
+                      borderColor: '1C72FF',
+                      estado: '{{$cita->estado}}',
+                    },
+                  @elseif($cita->estado == 'Finalizada')  
+                    {
+                      id: '{{$cita->id}}',
+                      title: '{{$cliente->nombre}} - {{$cliente->documento}} | {{$cita->estado}}',
+                      start: '{{$cita->inicio}}',
+                      end: '{{$cita->fin}}', 
+                      backgroundColor: '#0FA603',
+                      borderColor: '#0FA603',
+                      estado: '{{$cita->estado}}',
+                    },
+                  @elseif($cita->estado == 'En Proceso')  
+                    {
+                      id: '{{$cita->id}}',
+                      title: '{{$cliente->nombre}} - {{$cliente->documento  }} | {{$cita->estado}}',
+                      start: '{{$cita->inicio}}',
+                      end: '{{$cita->fin}}', 
+                      backgroundColor: '#D88B03',
+                      borderColor: '#D88B03',
+                      estado: '{{$cita->estado}}',
+                    },  
+                  @endif
+
+                @endif
+
+              @endforeach
+
+          @endforeach
+
+      ],
+
+        scrollTime: '09:00',
+        minTime: '09:00',
+        maxTime: '18:00',
+
+        dayClick: function(date,jsEvent,view){
+
+          var fecha = date.format();
+          fecha = fecha.split("T");
+          var fechaParte = fecha[0];
+          var horaParte = fecha[1].substring(0, 5); // Obtener HH:MM
+
+          var ahora = new Date();
+          var añoActual = ahora.getFullYear();
+          var mesActual = (ahora.getMonth() + 1).toString().padStart(2, '0');
+          var diaActual = ahora.getDate().toString().padStart(2, '0');
+          var horaActual = ahora.getHours().toString().padStart(2, '0');
+          var minutoActual = ahora.getMinutes().toString().padStart(2, '0');
+
+          var fechaHoraActual = añoActual + "-" + mesActual + "-" + diaActual + " " + horaActual + ":" + minutoActual;
+          var fechaHoraSeleccionada = fechaParte + " " + horaParte;
+
+          if (fechaHoraSeleccionada >= fechaHoraActual) {
+
+            @if ($doctor->estado == 'Disponible')
+              $("#CitaModal").modal();
+            @endif
+
+            $("#fecha").val(fechaParte);
+            $("#hora").val(horaParte);
+
+            var horaModal= fecha[1].split(":");
+
+            if (horaModal[1] == '00') {
+            var horaFin = horaModal[0];
+            var minutoFin = '30';
+            }else{
+            var horaFin = parseFloat(horaModal[0]) + 1;
+            var minutoFin = '00';
+            }
+
+            $("#fyhInicial").val(fechaParte+' '+horaParte+':00');
+            $("#fyhFinal").val(fechaParte+' '+horaFin+':'+minutoFin+':00');
+
+          } else {
+            Swal.fire({
+              icon: 'warning',
+              title: '¡Advertencia!',
+            text: 'No puedes agendar citas en el pasado.',
+            });
+          }
+        },
+
+        eventClick: function(calEvent, jsEvent, view){
+          if (calEvent.estado === 'Solicitada' || calEvent.estado === 'En Proceso') {
+            $("#CancelarCita").modal();
+            $("#paciente").html(calEvent.title);
+            $("#CitaId").val(calEvent.id);
+          }
+        }
+
+    });
+
+  </script>
+
+@endif
 
 
 </body>
