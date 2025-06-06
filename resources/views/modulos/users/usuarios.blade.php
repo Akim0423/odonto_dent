@@ -80,8 +80,9 @@
 
             <div class="modal-content">
 
-                <form action="" method="post">
+                <form action="{{url('Usuarios')}}" method="post">
                     @csrf
+                    @method('put')
 
                     <div class="modal-body">
 

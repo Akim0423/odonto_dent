@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\CitasController;
 
 Route::get('/', function () {
     return view('modulos.users.ingresar');
@@ -20,7 +21,7 @@ Route::get('/mis-datos',function(){
 });
 Route::put('mis-datos',[UsersController::class, 'ActualizarMisDatos']);
 Route::get('Usuarios',[UsersController::class, 'index']);
-Route::post('Usuarios',[UsersController::class, 'store']);
+Route::put('Usuarios',[UsersController::class, 'store']);
 Route::get('Editar-Usuario/{id_usuario}',[UsersController::class, 'edit']);
 Route::put('Actualizar-Usuario/{id_usuario}',[UsersController::class, 'update']);
 Route::get('Eliminar-Usuario/{id_usuario}',[UsersController::class, 'destroy']);
@@ -32,3 +33,12 @@ Route::post('Crear-Cliente',[ClientesController::class,'store']);
 
 Route::put('Reactivar-Cliente/{id}', [ClientesController::class, 'reactivar']);
 Route::get('Eliminar-Cliente/{id_clientes}',[ClientesController::class,'destroy']);
+
+//Doctor
+Route::get('Doctores',[CitasController::class,'VerDoctores']);
+Route::post('Doctores',[CitasController::class,'CrearDoctores']);
+Route::put('Estado/{id_doctor}',[CitasController::class,'CambiarEstado']);
+
+//Citas
+Route::get('Citas',[CitasController::class,'index']);
+Route::get('Calendario/{id_doctor}',[CitasController::class,'Calendario']);

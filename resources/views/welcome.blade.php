@@ -183,6 +183,12 @@
         '',
         'success'
       )
+  @elseif(session('DoctorCreado')=='OK')
+      Swal.fire(
+        'El Doctor ha sido Agregado',
+        '',
+        'success'
+      )
   
   @endif    
 

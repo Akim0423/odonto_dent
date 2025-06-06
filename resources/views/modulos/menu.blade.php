@@ -41,7 +41,7 @@
           <ul class="treeview-menu">
 
             <li>
-              <a href="{{ url('Veterinarios') }}">
+              <a href="{{ url('Doctores') }}">
                 <i class="fa fa-medkit"></i> 
                 <span>Doctores</span>
               </a>
