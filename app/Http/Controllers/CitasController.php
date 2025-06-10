@@ -7,11 +7,14 @@ use App\Models\User;
 use App\Models\Clientes;
 use App\Models\Ajustes;
 use App\Models\Historial;
+use App\Models\ImgHistorial;
+use App\Models\Receta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
+use Elibyy\TCPDF\Facades\TCPDF;
 
 class CitasController extends Controller
 {
@@ -106,10 +109,16 @@ class CitasController extends Controller
 
         $cita = Citas::find($datos["id_cita"]);
 
-        DB::table('citas')->whereId($datos["id_cita"])->delete();
+        if ($cita) {
+            $cita->estado = 'Cancelado';
+            $cita->save();
 
-        return redirect('Calendario/'.$cita['id_doctor']);
+            return redirect('Calendario/' . $cita->id_doctor);
+        }
+
+        return back()->with('error', 'Cita no encontrada');
     }
+
 
     public function VerCitasHoy($id_doctor)
     {
@@ -123,7 +132,9 @@ class CitasController extends Controller
 
         $citas = Citas::where('id_doctor',$id_doctor)->where('inicio','LIKE',$fechaHoy.' %')->get();
 
-        return view('modulos.citas.Citas-Hoy', compact('doctor','citas'));
+        $citasHistorial = Citas::where('id_doctor', $id_doctor)->whereDate('inicio', '<', $fechaHoy)->get();
+
+        return view('modulos.citas.Citas-Hoy', compact('doctor','citas','citasHistorial'));
     }
 
     public function CambiarEstadoCita(Request $request, $id_veterinario)
@@ -155,7 +166,15 @@ class CitasController extends Controller
 
         $historial = Historial::where('id_cita',$id_cita)->first();
 
-        return view('modulos.citas.Cita', compact('cita','cliente','doctor','historial'));
+        if($historial){
+            $imagenes = DB::select('select * from img_historial where id_historial = '.$historial->id);
+        }else{
+            $imagenes = "";
+        }
+
+        $receta = Receta::where('id_cita',$cita->id)->first();
+
+        return view('modulos.citas.Cita', compact('cita','cliente','doctor','historial','imagenes','receta'));
     }
 
     public function FinalizarCita($id_cita)
@@ -193,5 +212,105 @@ class CitasController extends Controller
 
             return redirect('Cita/'.$id_cita)->with('HistorialActualizado','OK');
         }
+    }
+
+    public function ImgHistorial(Request $request,$id_cita)
+    {
+        $datos = request();
+
+        $cita = Citas::find($id_cita);
+
+        $historial = Historial::where('id_cita',$id_cita)->first();
+        $cliente = Clientes::find($cita->id_cliente);
+
+        $rutaImg = $datos["imagenH"]->store('Clientes/'.$cliente->nombre.'-'.$cliente->documento.'/Historial-Clinico/', 'public'); 
+
+        DB::table('img_historial')->insert(['id_historial'=>$historial->id, 'imagen'=>$rutaImg]);
+
+        return redirect('Cita/'.$id_cita);
+    }
+
+    public function BorrarImgHistorial($id_imagen)
+    {
+        $imagen = ImgHistorial::find($id_imagen);
+
+        Storage::delete('public/'.$imagen->imagen);
+
+        ImgHistorial::destroy($id_imagen);
+
+        $historial = Historial::where('id',$imagen->id_historial)->first();
+
+        return redirect('Cita/'.$historial->id_cita);   
+    }
+
+    public function HistorialCliente($id_cliente)
+    {
+        $historial = Historial::orderBy('fecha','desc')->where('id_cliente',$id_cliente)->get();
+
+        $cliente = Clientes::find($id_cliente);
+
+        return view('modulos.citas.HistorialCliente', compact('historial','cliente'));
+    }
+
+    public function Receta(Request $request, $id_cita)
+    {
+        $datos = request();
+
+        if ($datos["tipo"] == 'Crear') {
+            Receta::create(['receta'=>$datos["receta"],'id_cita'=>$id_cita]);
+
+            return redirect('Cita/'.$id_cita)->with('RecetaCreada','OK');
+        }else{
+
+            Receta::where('id_cita',$id_cita)->update(['receta'=>$datos["receta"]]);
+
+            return redirect('Cita/'.$id_cita)->with('RecetaActualizada','OK');
+        }
+
+    }
+
+    public function RecetaPDF($id_receta)
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P','mm','A4',true,'UTF-8',false);
+
+        $pdf->SetCreator('Doctor');
+        $pdf->SetTitle('Receta');
+        $pdf->SetMargins(10,10,10,false);
+        $pdf->SetAutoPageBreak(true,20);
+        $pdf->AddPage();
+
+        $receta= Receta::find($id_receta);
+        $cita = Citas::find($receta->id_cita);
+        $cliente = Clientes::find($cita->id_cliente);
+        $doctor = User::find($cita->id_doctor);
+        $ajustes = Ajustes::find(1);
+
+        $logo = storage_path('app/public/logo.png');
+        $pdf->Image($logo, 150, 10 ,40, '','','','T',false,300,'',false,false,0,false,false,false);
+
+        $html = ' 
+                <h1></h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th><h1><u>RECETA</u></h1></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <h3>Doctor: '.$doctor->name.'</h3>
+                <h3>Paciente: '.$cliente->nombre.'</h3>
+                <h2>Receta: '.$receta->receta.'</h2>
+
+                <p>'.$ajustes["direccion"].' || '.$ajustes["telefono"].'</p>
+                               
+                ';
+
+        $pdf->writeHTML($html, true, false, true,false,'');
+
+        $pdf->OutPut('Receta-'.$cliente->nombre.'-'.$receta->id.'.pdf','I');
+
     }
 }

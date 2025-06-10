@@ -18,4 +18,9 @@ class Historial extends Model
     ];
 
     public $timestamps = false;
+
+    public function DOCTOR()
+    {
+        return $this->belongsTo(User::class, 'id_doctor');
+    }
 }

@@ -85,7 +85,35 @@
                         </tbody>
                     </table>
 
-                    
+                    <hr>
+
+                    <h2>Citas Anteriores</h2>
+
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Cliente</th>
+                                <th>Nota</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($citasHistorial as $citaH)
+                                @php
+                                    $fyh = explode(' ',$citaH->inicio);
+                                    $hora = substr($fyh[1],0,5) ;
+                                @endphp
+                                <tr>
+                                    <td>{{$citaH->inicio}}</td>
+                                    <td>{{$citaH->CLIENTE->nombre}}</td>
+                                    <td>{!!$citaH->nota!!}</td>
+
+                                    
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
                 </div>
 

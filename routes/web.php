@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\InformeController;
 
 Route::get('/', function () {
     return view('modulos.users.ingresar');
@@ -52,3 +53,14 @@ Route::post('Finalizar-Cita/{id_cita}',[CitasController::class,'FinalizarCita'])
 
 //Historial
 Route::post('Cita/{id_cita}',[CitasController::class,'HistorialCita']);
+Route::put('Cita-Historial-Imagen/{id_cita}',[CitasController::class,'ImgHistorial']);
+Route::delete('Cita-Historial-Imagen-Borrar/{id_imagen}',[CitasController::class,'BorrarImgHistorial']);
+Route::get('Historial/{id_cliente}',[CitasController::class,'HistorialCliente']);
+
+//Receta
+Route::post('Receta/{id_cita}',[CitasController::class,'Receta']);
+Route::get('Receta-PDF/{id_receta}',[CitasController::class,'RecetaPDF']);
+
+//Informe
+Route::get('Informes',[InformeController::class,'Informes']);
+Route::get('InformesPDF',[InformeController::class,'InformesPDF']);

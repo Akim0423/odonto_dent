@@ -11,23 +11,19 @@
           </a>
         </li>
 
-        <li>
-          <a href="{{ url('Usuarios') }}">
-            <i class="fa fa-users"></i> <span>Usuarios</span>
-          </a>
-        </li>
+        @if (auth()->user()->rol == 'administrador')
+            <li>
+              <a href="{{ url('Usuarios') }}">
+                <i class="fa fa-users"></i> <span>Usuarios</span>
+              </a>
+            </li>
+        @endif
 
         <li>
           <a href="{{ url('Clientes') }}">
             <i class="fas fa-user-injured"></i> <span> Clientes</span>
           </a>
         </li>
-
-        {{-- <li>
-          <a href="{{ url('Mascotas') }}">
-            <i class="fa fa-book"></i> <span>Pacientes</span>
-          </a>  
-        </li> --}}
 
         <li class="treeview">
 
