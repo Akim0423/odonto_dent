@@ -144,7 +144,7 @@ class InformeController extends Controller
 
         $pdf->writeHTML($html, true, false, true, false, '');
 
-        $pdf->Output('Ventas.pdf', 'I');
+        $pdf->Output('Informe.pdf', 'I');
 
     }
 }
