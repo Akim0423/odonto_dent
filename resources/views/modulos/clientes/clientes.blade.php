@@ -1,9 +1,9 @@
 @extends('welcome')
 @section('contenido')
     
-    <div class="content-wrapper">
+    <div class="content-wrapper transitionIn-Y-bottom">
 
-        <section class="content-header">
+        <section class="content-header transitionIn-Y-over">
             <h1><i class="fas fa-user-injured"></i> Gestor de Clientes</h1>
         </section>
 
@@ -12,14 +12,15 @@
             <div class="box">
 
                 <div class="box-header">
-
-                    <a href="{{url('Crear-Cliente')}}">
-                        <button class="btn btn-primary">Agregar Nuevo Cliente</button>
-                    </a>
+                    @if (Auth::user()->rol == 'administrador')
+                        <a href="{{url('Crear-Cliente')}}">
+                            <button class="btn btn-primary">Agregar Nuevo Cliente</button>
+                        </a>
+                    @endif
 
                 </div>
 
-                <div class="box-body">
+                <div class="box-body transitionIn-Y-bottom">
                     <h3>Clientes Activos</h3>
                     <table class="table table-bordered table-striped table-hover">
 
@@ -47,13 +48,16 @@
                                 <td>{{$cliente->direccion}}</td>
 
                                 <td>
-                                    <a href="{{url('Editar-Cliente/'.$cliente->id)}}">
-                                        <button class="btn btn-success"><i class="fa fa-pencil"></i></button>
-                                    </a>
-                                    
-                                    <a href="{{url('Eliminar-Cliente/'.$cliente->id)}}">
-                                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                    </a>
+                                    @if (Auth::user()->rol == 'administrador')
+                                        <a href="{{url('Editar-Cliente/'.$cliente->id)}}">
+                                            <button class="btn btn-success"><i class="fa fa-pencil"></i></button>
+                                        </a>
+                                        
+                                        <a href="{{url('Eliminar-Cliente/'.$cliente->id)}}">
+                                            <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                        </a>
+                                        
+                                    @endif
 
                                 </td>
                             </tr>

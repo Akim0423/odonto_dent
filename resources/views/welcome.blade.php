@@ -54,6 +54,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Icono de pestaña -->
   <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}?v={{ time() }}">
+  <!-- Animaciones -->
+  <link rel="stylesheet" href="{{ asset('css/animations.css')}}">
+
 
   <link rel="stylesheet" href="{{asset('css/main.css')}}">
 
@@ -542,6 +545,70 @@
 
 @endif
 
+
+<!-- Botón flotante del chatbot -->
+<style>
+#chatbot-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    text-align: center;
+    line-height: 60px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 9999;
+}
+#chatbot-frame{
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 380px;
+    height: 500px;
+    border: none;
+    display: none;
+    z-index: 10000;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    border-radius: 12px;
+    border: 2px solid #007bff;
+    overflow: hidden;
+}
+#chatbot-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+</style>
+
+<button id="chatbot-button">💬</button>
+<iframe id="chatbot-frame" src="{{ asset('chatbot/index.html') }}"></iframe>
+
+<script>
+  document.getElementById('chatbot-button').addEventListener('click', function () {
+      const iframe = document.getElementById('chatbot-frame');
+      iframe.style.display = (iframe.style.display === 'none') ? 'block' : 'none';
+  });
+
+  // Este bloque cierra el iframe si haces clic fuera
+  document.addEventListener('click', function (e) {
+      const iframe = document.getElementById('chatbot-frame');
+      const button = document.getElementById('chatbot-button');
+
+      if (
+          iframe.style.display === 'block' &&
+          !iframe.contains(e.target) &&
+          !button.contains(e.target)
+      ) {
+          iframe.style.display = 'none';
+      }
+  });
+</script>
 
 </body>
 </html>

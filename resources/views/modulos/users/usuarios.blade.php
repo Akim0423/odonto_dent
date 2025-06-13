@@ -1,9 +1,9 @@
 @extends('welcome')
 @section('contenido')
     
-    <div class="content-wrapper">
+    <div class="content-wrapper transitionIn-Y-bottom">
 
-        <section class="content-header">
+        <section class="content-header transitionIn-Y-over">
             <h1><i class="fa fa-users"></i>Gestor de Usuarios</h1>
         </section>
 
@@ -15,7 +15,7 @@
                     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#CrearUsuario">Crear Usuario</button>
                 </div>
 
-                <div class="box-body">
+                <div class="box-body transitionIn-Y-bottom">
 
                     <table class="table table-bordered table-hover table-striped dt-responsive">
 

@@ -95,7 +95,7 @@
                                 <th>Hora</th>
                                 <th>Cliente</th>
                                 <th>Nota</th>
-                                
+                                <th>Historial Clinico</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,7 +109,11 @@
                                     <td>{{$citaH->CLIENTE->nombre}}</td>
                                     <td>{!!$citaH->nota!!}</td>
 
-                                    
+                                    <td>
+                                        <a href="{{url('Cita/'.$citaH->id)}}">
+                                            <button type="button" class="btn btn-primary">Ver Historial</button>
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

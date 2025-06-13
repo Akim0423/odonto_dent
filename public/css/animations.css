@@ -1,0 +1,58 @@
+/*These transition are from youtube*/
+
+@keyframes transitionIn-X{
+    from {
+            opacity: 0;
+            transform: translateX(-10px);
+
+    }
+
+    to {
+            opacity: 1;
+            transform: translateX(0);
+    }
+}
+    
+
+
+@keyframes transitionIn-Y-over{
+    from {
+            opacity: 0;
+            transform: translateY(-10px);
+
+    }
+
+    to {
+            opacity: 1;
+            transform: translateY(0);
+    }
+}
+    
+@keyframes transitionIn-Y-bottom{
+    from {
+            opacity: 0.5;
+            transform: translateY(30px);
+
+    }
+
+    to {
+            opacity: 1;
+            transform: translateY(0);
+    }
+}
+    
+
+/* Aplicando las animaciones a las clases */
+.transitionIn-X {
+    animation: transitionIn-X 0.5s ease-out forwards; /* Ajusta la duración y el timing según necesites */
+}
+
+.transitionIn-Y-over {
+    animation: transitionIn-Y-over 0.5s ease-out forwards; /* Ajusta la duración y el timing según necesites */
+}
+
+.transitionIn-Y-bottom {
+    animation: transitionIn-Y-bottom 0.5s ease-out forwards; /* Ajusta la duración y el timing según necesites */
+}
+
+/* Transition end */

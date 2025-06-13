@@ -5,25 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat de IA con Productos</title>
     <style>
+        html, body {
+            height: 100%;
+        }
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            height: 100%;
         }
         .chat-container {
             width: 100%;
-            max-width: 600px;
+            height: 100%;
+            max-width: none;
+            border-radius: 0;
+            box-shadow: none;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 70vh; /* Altura fija para el contenedor del chat */
         }
         .chat-header {
             background-color: #007bff;
@@ -97,10 +97,10 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            Asistente de Productos (IA)
+            Asistente de Clinica (IA)
         </div>
         <div class="chat-messages" id="chat-messages">
-            <div class="message-bubble ai-message">¡Hola! Pregúntame sobre nuestros productos.</div>
+            <div class="message-bubble ai-message">¡Hola! Pregúntame sobre cualquier cosa sobre la clinica.</div>
         </div>
         <div class="loading-indicator" id="loading-indicator" style="display: none;">La IA está escribiendo...</div>
         <div class="chat-input-container">
