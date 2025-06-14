@@ -32,7 +32,7 @@ async function ingestData() {
     // Ajustes generales
     ajustes.forEach(row => {
         documentos.push({
-            pageContent: `Información del consultorio: Teléfono ${row.telefono}, Dirección ${row.direccion}, Zona horaria: ${row.zona_horaria}.`,
+            pageContent: `La clínica está ubicada en la dirección ${row.direccion}, puedes contactarnos al teléfono ${row.telefono}. Atendemos según la zona horaria: ${row.zona_horaria}.`,
             metadata: { tipo: 'ajustes' }
         });
     });
@@ -74,19 +74,22 @@ async function ingestData() {
     });
 
     // Usuarios (médicos, secretarios, admin)
-    users.forEach(u => {
+    // Agrupar todos los doctores en un solo documento
+    const doctores = users.filter(u => u.rol === 'doctor');
+    if (doctores.length > 0) {
+        const nombres = doctores.map(d => d.name).join(', ');
         documentos.push({
-            pageContent: `${u.rol === 'doctor' ? 'Doctor' : 'Usuario'}: ${u.name}, Rol: ${u.rol}, Email: ${u.email}.`,
-            metadata: { tipo: u.rol, id: u.id }
+            pageContent: `Los doctores registrados en la clínica son: ${nombres}.`,
+            metadata: { tipo: 'resumen_doctores' }
         });
-    });
+    }
 
 
     // Separar los textos en fragmentos
     const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000, chunkOverlap: 200 });
     const splitDocs = await splitter.splitDocuments(documentos);
 
-    // Generar embeddings y guardar
+    // Generar embeddings y guardar en ChromaDB
     const embeddings = new GoogleGenerativeAIEmbeddings({
         apiKey: process.env.GOOGLE_API_KEY,
         modelName: "embedding-001"
@@ -94,7 +97,7 @@ async function ingestData() {
 
     await Chroma.fromDocuments(splitDocs, embeddings, {
         collectionName: 'coleccion_clinica_dental',
-        persist_directory: "./chroma_db_data"
+        url: "http://localhost:8000"
     });
 
     console.log("Datos ingeridos exitosamente en ChromaDB.");

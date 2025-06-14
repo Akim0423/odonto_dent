@@ -29,7 +29,7 @@ async function initializeChain() {
         // 2. Cargar la base de datos vectorial de ChromaDB (desde el modo persistente local)
         const vectorStore = await Chroma.fromExistingCollection(embeddings, {
             collectionName: 'coleccion_clinica_dental',
-            persist_directory: "./chroma_db_data", // Debe ser la misma ruta que en ingest.js
+            url: "http://localhost:8000" // Debe ser la misma ruta que en ingest.js
         });
         console.log('ChromaDB cargado exitosamente.');
 
@@ -54,10 +54,10 @@ async function initializeChain() {
 
         // 5. Definir un prompt personalizado (¡Muy importante para la calidad de la respuesta!)
         const customPromptTemplate = `
-        Eres un asistente útil que responde preguntas sobre productos.
-        Usa la siguiente información de contexto para responder la pregunta.
-        Si la pregunta no está relacionada con la información de los productos, no respondas sobre ese tema o di que no tienes información.
-        Sé conciso y directo en tus respuestas.
+        Eres un asistente virtual profesional diseñado para asistir al personal interno de una clínica dental: administradores, médicos y secretarios. 
+        Responde preguntas únicamente relacionadas con la gestión interna de la clínica, como información de pacientes, citas, historial clínico, recetas, doctores y configuración general.
+
+        Utiliza exclusivamente la información proporcionada en el contexto para responder. Si la pregunta no está relacionada con el entorno interno de la clínica o no encuentras suficiente información, responde que no tienes datos disponibles.
 
         Contexto:
         {context}
