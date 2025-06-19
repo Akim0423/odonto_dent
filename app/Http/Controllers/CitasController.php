@@ -73,10 +73,11 @@ class CitasController extends Controller
     {
         $doctor = User::find($id_doctor);
         $clientes = Clientes::all();
+        $ajustes = Ajustes::first(); 
 
         $citas = Citas::where('id_doctor',$id_doctor)->get();
 
-        return view('modulos.citas.Calendario', compact('doctor','clientes','citas'));
+        return view('modulos.citas.Calendario', compact('doctor','clientes','citas','ajustes'));
     }
 
     public function AgendarCita(Request $request)

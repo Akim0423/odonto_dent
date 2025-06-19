@@ -55,6 +55,13 @@
                                 </select> 
                             </div>
 
+                            {{-- <div class="col-md-3">
+                                <h2>Horario de atención</h2>
+                                <input type="time" name="hora_inicio" value="{{ $ajustes->hora_inicio ?? '' }}">
+                                a
+                                <input type="time" name="hora_fin" value="{{ $ajustes->hora_fin ?? '' }}">
+                            </div> --}}
+
                             <div class="col-md-3">
                                 <h2></h2><br><br>
                                 <button class="btn btn-primary" type="submit">Guardar</button>

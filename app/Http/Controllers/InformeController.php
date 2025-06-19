@@ -31,7 +31,7 @@ class InformeController extends Controller
         $recetas = Receta::all()->count();
         $imagenes_subidas = ImgHistorial::count();
         $citas_realizadas = Citas::where('estado', 'realizada')->count();
-        $citas_pendientes = Citas::where('estado', 'pendiente')->count();
+        $citas_pendientes = Citas::where('estado', 'En progreso')->count();
         $citas_canceladas = Citas::where('estado', 'Cancelado')->count();
 
         // Ajustes del sistema
@@ -45,7 +45,7 @@ class InformeController extends Controller
         // Datos de los últimos 6 meses
         $datosFinalizadas = [];
         $datosSolicitadas = [];
-        $datosPendientes = [];
+        $datosCanceladas = [];
         $nombresMeses = [];
 
         for ($i = 5; $i >= 0; $i--) {
@@ -60,7 +60,7 @@ class InformeController extends Controller
 
             $datosFinalizadas[] = $citasMes->where('estado', 'Finalizada')->count();
             $datosSolicitadas[] = $citasMes->where('estado', 'Solicitada')->count();
-            $datosPendientes[] = $citasMes->where('estado', 'Pendiente')->count();
+            $datosCanceladas[] = $citasMes->where('estado', 'Cancelado')->count();
         }
 
         // Enviar datos a la vista
@@ -71,12 +71,13 @@ class InformeController extends Controller
             'secretarias',
             'citas',
             'recetas',
+            'citas_pendientes',
             'citas_canceladas',
             'imagenes_subidas',
             'nombresMeses',
             'datosFinalizadas',
             'datosSolicitadas',
-            'datosPendientes'
+            'datosCanceladas'
         ));
     }
 
@@ -100,6 +101,25 @@ class InformeController extends Controller
         $imagenes_subidas = ImgHistorial::count();
         $citas_canceladas = Citas::where('estado', 'Cancelado')->count();
 
+        // Datos de los últimos 6 meses
+        $datosFinalizadas = [];
+        $datosSolicitadas = [];
+        $datosCanceladas = [];
+        $nombresMeses = [];
+
+        for ($i = 5; $i >= 0; $i--) {
+            $fecha = now()->subMonths($i);
+            $mes = $fecha->format('m');
+            $año = $fecha->format('Y');
+
+            $nombresMeses[] = ucfirst(strftime('%B', strtotime($fecha)));
+
+            $citasMes = Citas::whereYear('inicio', $año)->whereMonth('inicio', $mes)->get();
+            $datosFinalizadas[] = $citasMes->where('estado', 'Finalizada')->count();
+            $datosSolicitadas[] = $citasMes->where('estado', 'Solicitada')->count();
+            $datosCanceladas[] = $citasMes->where('estado', 'Cancelado')->count();
+        }
+
         $html = '<h3>Informes</h3>
                     <table border="1" cellpadding="5">
                         <thead>
@@ -121,7 +141,7 @@ class InformeController extends Controller
                            
                         </table>';
 
-        $html .= '
+        $html2 = '
                     <table border="1" cellpadding="5">
                         <thead>
                             <tr>
@@ -141,8 +161,34 @@ class InformeController extends Controller
                         </tbody>
                            
                         </table>';
+        
+        // Tercera tabla: gráfico de barras en tabla
+        $html3 = '<h3>Estado de Citas - Últimos 6 Meses</h3>
+                    <table border="1" cellpadding="5">
+                        <thead>
+                            <tr>
+                                <th>Mes</th>
+                                <th>Finalizadas</th>
+                                <th>Solicitadas</th>
+                                <th>Canceladas</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+        for ($i = 0; $i < 6; $i++) {
+            $html3 .= '<tr>
+                        <td>'.$nombresMeses[$i].'</td>
+                        <td>'.$datosFinalizadas[$i].'</td>
+                        <td>'.$datosSolicitadas[$i].'</td>
+                        <td>'.$datosCanceladas[$i].'</td>
+                    </tr>';
+        }
+
+        $html3 .= '</tbody></table>';
 
         $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTML($html2, true, false, true, false, '');
+        $pdf->writeHTML($html3, true, false, true, false, '');
 
         $pdf->Output('Informe.pdf', 'I');
 

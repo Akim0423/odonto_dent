@@ -69,37 +69,40 @@
                     </table>
 
                     <br><br>
-                    <h3>Clientes Inactivos</h3>
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Cliente</th>
-                                <th>Documento</th>
-                                <th>Email</th>
-                                <th>Telefono</th>
-                                <th>Direccion</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($clientesInactivos as $cliente)
-                            <tr>
-                                <td>{{ $cliente->nombre }}</td>
-                                <td>{{ $cliente->documento }}</td>
-                                <td>{{ $cliente->email }}</td>
-                                <td>{{ $cliente->telefono }}</td>
-                                <td>{{ $cliente->direccion }}</td>
-                                <td>
-                                    <form method="POST" action="{{ url('Reactivar-Cliente/'.$cliente->id) }}">
-                                        @csrf
-                                        @method('PUT')
-                                        <button class="btn btn-warning" type="submit">Reactivar</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    @if (Auth::user()->rol == 'administrador')
+                        <h3>Clientes Inactivos</h3>
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Documento</th>
+                                    <th>Email</th>
+                                    <th>Telefono</th>
+                                    <th>Direccion</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($clientesInactivos as $cliente)
+                                <tr>
+                                    <td>{{ $cliente->nombre }}</td>
+                                    <td>{{ $cliente->documento }}</td>
+                                    <td>{{ $cliente->email }}</td>
+                                    <td>{{ $cliente->telefono }}</td>
+                                    <td>{{ $cliente->direccion }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ url('Reactivar-Cliente/'.$cliente->id) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="btn btn-warning" type="submit">Reactivar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                        
 
                 </div>
 

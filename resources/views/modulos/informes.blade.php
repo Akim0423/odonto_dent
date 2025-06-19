@@ -71,10 +71,10 @@
                     <!-- Citas Canceladas-->
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-red"><i class="fas fa-calendar-times"></i></span>
+                            <span class="info-box-icon bg-blue"><i class="fas fa-calendar-minus"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Citas Canceladas</span>
-                                <span class="info-box-number">{{ $citas_canceladas }}</span>
+                                <span class="info-box-text">Citas en Progreso</span>
+                                <span class="info-box-number">{{ $citas_pendientes }}</span>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                     <!-- Radiografias -->
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="info-box">
-                            <span class="info-box-icon bg-teal"><i class="fas fa-book-medical"></i></span>
+                            <span class="info-box-icon bg-teal"><i class="fas fa-x-ray"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Radiografias</span>
                                 <span class="info-box-number">{{ $imagenes_subidas }}</span>

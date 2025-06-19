@@ -285,7 +285,7 @@
     var nombresMeses = @json($nombresMeses);
     var datosFinalizadas = @json($datosFinalizadas);
     var datosSolicitadas = @json($datosSolicitadas);
-    var datosPendientes = @json($datosPendientes);
+    var datosCanceladas = @json($datosCanceladas);
 
     var areaChartData = {
       labels: nombresMeses,
@@ -311,14 +311,14 @@
           data: datosSolicitadas
         },
         {
-          label: 'En Progreso',
-          fillColor: '#f39c12',
-          strokeColor: '#f39c12',
-          pointColor: '#f39c12',
-          pointStrokeColor: '#f39c12',
+          label: 'Canceladas',
+          fillColor: '#f31a12',
+          strokeColor: '#f31a12',
+          pointColor: '#f31a12',
+          pointStrokeColor: '#f31a12',
           pointHighlightFill: '#fff',
-          pointHighlightStroke: '#f39c12',
-          data: datosPendientes
+          pointHighlightStroke: '#f31a12',
+          data: datosCanceladas
         }
       ]
     }
@@ -548,42 +548,42 @@
 
 <!-- Botón flotante del chatbot -->
 <style>
-#chatbot-button {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 30px;
-    text-align: center;
-    line-height: 60px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    cursor: pointer;
-    z-index: 9999;
-}
-#chatbot-frame{
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 380px;
-    height: 500px;
-    border: none;
-    display: none;
-    z-index: 10000;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    border-radius: 12px;
-    border: 2px solid #007bff;
-    overflow: hidden;
-}
-#chatbot-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
-}
+  #chatbot-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      text-align: center;
+      line-height: 60px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 9999;
+  }
+  #chatbot-frame{
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 380px;
+      height: 500px;
+      border: none;
+      display: none;
+      z-index: 10000;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      border-radius: 12px;
+      border: 2px solid #007bff;
+      overflow: hidden;
+  }
+  #chatbot-button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+      transition: all 0.3s ease;
+  }
 </style>
 
 <button id="chatbot-button">💬</button>
