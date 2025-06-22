@@ -4,7 +4,7 @@
     <div class="content-wrapper transitionIn-Y-bottom">
 
         <section class="content-header transitionIn-Y-over">
-            <h1><i class="fas fa-user-injured"></i> Gestor de Clientes</h1>
+            <h1><i class="fas fa-user-injured"></i> Gestor de Pacientes</h1>
         </section>
 
         <section class="content">
@@ -14,7 +14,7 @@
                 <div class="box-header">
                     @if (Auth::user()->rol == 'administrador')
                         <a href="{{url('Crear-Cliente')}}">
-                            <button class="btn btn-primary">Agregar Nuevo Cliente</button>
+                            <button class="btn btn-primary">Agregar Nuevo Pacientes</button>
                         </a>
                     @endif
 
@@ -26,7 +26,7 @@
 
                         <thead>
                             <tr>
-                                <th>Cliente</th>
+                                <th>Pacientes</th>
                                 <th>Documento</th>
                                 <th>Email</th>
                                 <th>Telefono</th>
@@ -74,7 +74,7 @@
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Cliente</th>
+                                    <th>Pacientes</th>
                                     <th>Documento</th>
                                     <th>Email</th>
                                     <th>Telefono</th>

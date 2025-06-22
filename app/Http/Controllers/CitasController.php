@@ -81,8 +81,25 @@ class CitasController extends Controller
     }
 
     public function AgendarCita(Request $request)
-    {
+    {   
         $datos = request();
+
+        // Validar si el paciente ya tiene una cita en ese rango horario con otro doctor
+        $existeCita = DB::table('citas')
+            ->where('id_cliente', $datos['id_cliente'])
+            ->where(function ($query) use ($datos) {
+                $query->whereBetween('inicio', [$datos['inicio'], $datos['fin']])
+                    ->orWhereBetween('fin', [$datos['inicio'], $datos['fin']])
+                    ->orWhere(function ($query) use ($datos) {
+                        $query->where('inicio', '<=', $datos['inicio'])
+                                ->where('fin', '>=', $datos['fin']);
+                    });
+            })
+            ->exists();
+
+        if ($existeCita) {
+            return back()->with('error', 'OK');
+        }
 
         if ($datos["nota"] == '') {
             $nota = 'Sin Nota';

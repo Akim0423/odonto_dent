@@ -233,6 +233,12 @@
         '',
         'success'
       )
+  @elseif(session('error')=='OK')
+      Swal.fire(
+        'Este paciente ya tiene una cita en ese horario con otro doctor.',
+        '',
+        'error'
+      )
   
   @endif    
 

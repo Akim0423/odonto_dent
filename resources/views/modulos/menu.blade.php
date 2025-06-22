@@ -21,7 +21,7 @@
 
         <li>
           <a href="{{ url('Clientes') }}">
-            <i class="fas fa-user-injured"></i> <span> Clientes</span>
+            <i class="fas fa-user-injured"></i> <span> Pacientes</span>
           </a>
         </li>
 
