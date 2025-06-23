@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\InformeController;
 
 Route::get('/', function () {
@@ -30,10 +31,17 @@ Route::get('Eliminar-Usuario/{id_usuario}',[UsersController::class, 'destroy']);
 //Clientes
 Route::get('Clientes',[ClientesController::class,'index']);
 Route::get('Crear-Cliente',[ClientesController::class,'create']);
-Route::post('Crear-Cliente',[ClientesController::class,'store']);
+Route::post('Editar-Cliente',[ClientesController::class,'store']);
 
 Route::put('Reactivar-Cliente/{id}', [ClientesController::class, 'reactivar']);
 Route::get('Eliminar-Cliente/{id_clientes}',[ClientesController::class,'destroy']);
+
+//Especialidad
+Route::get('Especialidad',[EspecialidadController::class,'index']);
+Route::put('Especialidad',[EspecialidadController::class, 'store']);
+
+Route::get('Eliminar-Especialidad/{id_especialidad}',[EspecialidadController::class,'destroy']);
+Route::put('Reactivar-Especialidad/{id}', [EspecialidadController::class, 'reactivar']);
 
 //Doctor
 Route::get('Doctores',[CitasController::class,'VerDoctores']);

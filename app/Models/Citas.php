@@ -12,6 +12,7 @@ class Citas extends Model
 
         'id_doctor',
         'id_cliente',
+        'id_especialidad',
         'nota',
         'estado',
         'inicio',
@@ -23,5 +24,10 @@ class Citas extends Model
     public function CLIENTE()
     {
         return $this->belongsTo(Clientes::class, 'id_cliente');
+    }
+
+    public function ESPECIALIDAD() 
+    {
+        return $this->belongsTo(Especialidad::class, 'id_especialidad');
     }
 }

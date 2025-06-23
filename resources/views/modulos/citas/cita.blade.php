@@ -16,6 +16,10 @@
                 </div>
 
                 <div class="col-md-3">
+                    <h3>Especialidad: <b>{{$cita->ESPECIALIDAD->nombre ?? 'Sin especialidad'}}</b></h3>
+                </div>
+
+                <div class="col-md-3">
                     @if ($cita->estado == 'En Proceso')
                         <h3><button class="btn btn-warning">En Proceso</button></h3>
 

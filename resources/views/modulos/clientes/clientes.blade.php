@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="box-body transitionIn-Y-bottom">
-                    <h3>Clientes Activos</h3>
+                    <h3>Clientes</h3>
                     <table class="table table-bordered table-striped table-hover">
 
                         <thead>
@@ -48,16 +48,24 @@
                                 <td>{{$cliente->direccion}}</td>
 
                                 <td>
-                                    @if (Auth::user()->rol == 'administrador')
-                                        <a href="{{url('Editar-Cliente/'.$cliente->id)}}">
-                                            <button class="btn btn-success"><i class="fa fa-pencil"></i></button>
+                                    <td>
+
+                                        @if (in_array(Auth::user()->rol, ['administrador', 'secretaria']))
+                                            <a href="{{ url('Editar-Cliente/'.$cliente->id) }}">
+                                                <button class="btn btn-success"><i class="fa fa-pencil"></i></button>
+                                            </a>
+                                        @endif
+
+                                        @if (Auth::user()->rol == 'administrador')
+                                            <a href="{{ url('Eliminar-Cliente/'.$cliente->id) }}">
+                                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                            </a>
+                                        @endif
+
+                                        <a href="{{ url('Historial/'.$cliente->id) }}">
+                                            <button type="button" class="btn btn-info"><i class="fas fa-file-medical"></i></button>
                                         </a>
-                                        
-                                        <a href="{{url('Eliminar-Cliente/'.$cliente->id)}}">
-                                            <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                        </a>
-                                        
-                                    @endif
+                                    </td>
 
                                 </td>
                             </tr>
@@ -69,7 +77,7 @@
                     </table>
 
                     <br><br>
-                    @if (Auth::user()->rol == 'administrador')
+                    @if (Auth::user()->rol == 'administrador' && count($clientesInactivos)>0)
                         <h3>Clientes Inactivos</h3>
                         <table class="table table-bordered table-striped table-hover">
                             <thead>

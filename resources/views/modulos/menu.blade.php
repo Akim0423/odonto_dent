@@ -25,6 +25,12 @@
           </a>
         </li>
 
+        <li>
+          <a href="{{ url('Especialidad') }}">
+            <i class="fas fa-head-side-mask"></i> <span> Especialidades</span>
+          </a>
+        </li>
+
         <li class="treeview">
 
           <a href="#">

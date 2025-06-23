@@ -239,6 +239,24 @@
         '',
         'error'
       )
+  @elseif(session('EspecialidadAgregada')=='OK')
+      Swal.fire(
+        'La Especialidad ha sido Agregada',
+        '',
+        'success'
+      )
+  @elseif(session('EspecialidadDesactivado')=='OK')
+      Swal.fire(
+        'La Especialidad ha sido Desactivada',
+        '',
+        'info'
+      )
+  @elseif(session('EspecialidadReactivado')=='OK')
+      Swal.fire(
+        'La Especialidad ha sido Reactivada',
+        '',
+        'success'
+      )
   
   @endif    
 
@@ -454,6 +472,7 @@
                       backgroundColor: '#1C72FF',
                       borderColor: '1C72FF',
                       estado: '{{$cita->estado}}',
+                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}}'
                     },
                   @elseif($cita->estado == 'Finalizada')  
                     {
@@ -464,6 +483,7 @@
                       backgroundColor: '#0FA603',
                       borderColor: '#0FA603',
                       estado: '{{$cita->estado}}',
+                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}}'
                     },
                   @elseif($cita->estado == 'En Proceso')  
                     {
@@ -474,6 +494,7 @@
                       backgroundColor: '#D88B03',
                       borderColor: '#D88B03',
                       estado: '{{$cita->estado}}',
+                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}}'
                     },  
                   @endif
 
@@ -526,7 +547,11 @@
             }
 
             $("#fyhInicial").val(fechaParte+' '+horaParte+':00');
-            $("#fyhFinal").val(fechaParte+' '+horaFin+':'+minutoFin+':00');
+            // Guardar la fecha seleccionada en una variable global para usar después
+            window.fechaInicioSeleccionada = fechaParte + ' ' + horaParte + ':00';
+
+            // Limpiar fyhFinal hasta que el usuario seleccione la especialidad
+            $("#fyhFinal").val('');
 
           } else {
             Swal.fire({
@@ -542,13 +567,25 @@
             $("#CancelarCita").modal();
             $("#paciente").html(calEvent.title);
             $("#CitaId").val(calEvent.id);
+            $("#especialidad_text").text(calEvent.especialidad);
+            $("#EspecialidadId").val(calEvent.id_especialidad);
           }
         }
+        
+
 
     });
+    // Escuchar cuando el usuario selecciona una especialidad
+        $('#especialidad').on('change', function() {
+            var duracion = parseInt($(this).find(':selected').data('duracion') || 30);
+            var inicio = moment(window.fechaInicioSeleccionada);
+            var fin = inicio.clone().add(duracion, 'minutes');
+
+            $("#fyhFinal").val(fin.format('YYYY-MM-DD HH:mm:ss'));
+        });
 
   </script>
-
+  
 @endif
 
 

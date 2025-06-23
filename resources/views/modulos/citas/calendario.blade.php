@@ -56,6 +56,19 @@
                             </div>
 
                             <div class="form-group">
+                                <h2>Especialidad</h2>
+                                <select id="especialidad" name="id_especialidad" class="form-control input-lg select2" 
+                                style="width: 100%;" required>
+                                    <option value="" data-duracion="0">Seleccionar</option>
+                                    @foreach($especialidades as $esp)
+                                    <option value="{{ $esp->id }}" data-duracion="{{ $esp->duracion_aprox }}">
+                                        {{ $esp->nombre }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <h2>Fecha:</h2>
                                 <input type="text" class="form-control input-lg" id="fecha" readonly>
 
@@ -109,6 +122,13 @@
 
                                 <input type="hidden" name="id_cita" id="CitaId">
 
+                            </div>
+
+                            <div class="form-group">
+                                <h2>Especialidad:</h2>
+                                <h3 id="especialidad_text"></h3>
+
+                                <input type="hidden" name="id_especialidad" id="EspecialidadId">
                             </div>
 
                         </div>

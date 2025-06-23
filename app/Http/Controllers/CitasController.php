@@ -9,6 +9,7 @@ use App\Models\Ajustes;
 use App\Models\Historial;
 use App\Models\ImgHistorial;
 use App\Models\Receta;
+use App\Models\Especialidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -74,10 +75,11 @@ class CitasController extends Controller
         $doctor = User::find($id_doctor);
         $clientes = Clientes::all();
         $ajustes = Ajustes::first(); 
+        $especialidades = Especialidad::where('estado','Activo')->get(); 
 
         $citas = Citas::where('id_doctor',$id_doctor)->get();
 
-        return view('modulos.citas.Calendario', compact('doctor','clientes','citas','ajustes'));
+        return view('modulos.citas.Calendario', compact('doctor','clientes','citas','ajustes','especialidades'));
     }
 
     public function AgendarCita(Request $request)
@@ -111,6 +113,7 @@ class CitasController extends Controller
 
             'id_doctor'=>$datos["id_doctor"],
             'id_cliente'=>$datos["id_cliente"],
+            'id_especialidad'=>$datos["id_especialidad"],
             'inicio'=>$datos["inicio"],
             'fin'=>$datos["fin"],
             'nota'=>$nota,
@@ -177,7 +180,8 @@ class CitasController extends Controller
 
     public function VerCita($id_cita)
     {
-        $cita = Citas::find($id_cita);
+        // $cita = Citas::find($id_cita);
+        $cita = Citas::with('especialidad')->find($id_cita);
 
         $cliente = Clientes::find($cita->id_cliente);
         $doctor = Clientes::find($cita->id_doctor);

@@ -34,6 +34,7 @@
                             <tr>
                                 <th>Hora</th>
                                 <th>Cliente</th>
+                                <th>Especialidad</th>
                                 <th>Nota</th>
 
                                 <th></th>
@@ -49,6 +50,7 @@
                                 <tr>
                                     <td>{{$hora}}</td>
                                     <td>{{$cita->CLIENTE->nombre}}</td>
+                                    <td>{{$cita->ESPECIALIDAD->nombre}}</td>
                                     <td>{!!$cita->nota!!}</td>
 
                                     <td>
@@ -94,6 +96,7 @@
                             <tr>
                                 <th>Hora</th>
                                 <th>Cliente</th>
+                                <th>Especialidad</th>
                                 <th>Nota</th>
                                 <th>Historial Clinico</th>
                             </tr>
@@ -107,6 +110,7 @@
                                 <tr>
                                     <td>{{$citaH->inicio}}</td>
                                     <td>{{$citaH->CLIENTE->nombre}}</td>
+                                    <td>{{$cita->ESPECIALIDAD->nombre}}</td>
                                     <td>{!!$citaH->nota!!}</td>
 
                                     <td>

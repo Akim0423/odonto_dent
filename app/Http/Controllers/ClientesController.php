@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clientes;
+use App\Models\Especialidad;
+use App\Models\Ajustes;
 use Illuminate\Http\Request;
 
 class ClientesController extends Controller
@@ -53,17 +55,6 @@ class ClientesController extends Controller
         $cliente->save();
 
         return redirect('Clientes')->with('ClienteReactivado', 'OK');
-    }
-
-
-    public function show(Clientes $clientes)
-    {
-        
-    }
-
-    public function edit(Clientes $clientes)
-    {
-        
     }
 
     public function update(Request $request, Clientes $clientes)
