@@ -19,6 +19,12 @@ class Citas extends Model
         'fin'
     ];
 
+    protected $casts = [
+        'inicio' => 'datetime',
+        'fin' => 'datetime',
+    ];
+
+
     public $timestamps = false;
 
     public function CLIENTE()

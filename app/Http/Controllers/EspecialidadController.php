@@ -10,12 +10,11 @@ class EspecialidadController extends Controller
 
     public function index()
     {
-        $especialidades = Especialidad::where('estado', 'Activo')->get();
+        $especialidadesActivas = Especialidad::where('estado', 'Activo')->get();
         $especialidadesInactiva = Especialidad::where('estado', 'Inactivo')->get();
 
-        return view('modulos.clientes.especialidad', compact('especialidades','especialidadesInactiva'));
+        return view('modulos.clientes.especialidad', compact('especialidadesActivas','especialidadesInactiva'));
     }
-
 
     public function store(Request $request)
     {
@@ -38,20 +37,25 @@ class EspecialidadController extends Controller
         return redirect('Especialidad')->with('EspecialidadReactivado', 'OK');
     }
 
-    public function show(Especialidad $especialidad)
+    public function edit($id_especialidad)
     {
-        //
+        $especialidadesActivas = Especialidad::where('estado', 'Activo')->get();
+        $especialidadesInactiva = Especialidad::where('estado', 'Inactivo')->get();
+        $especialidad = Especialidad::find($id_especialidad);
+
+        return view('modulos.clientes.especialidad', compact('especialidadesActivas', 'especialidadesInactiva', 'especialidad'));
     }
 
-    public function edit(Especialidad $especialidad)
+
+    public function update(Request $request, $id_especialidad)
     {
-        //
+        $especialidad = Especialidad::find($id_especialidad);
+
+        $especialidad->update($request->all());
+
+        return redirect('Especialidad')->with('EspecialidadActualizada', 'OK');
     }
 
-    public function update(Request $request, Especialidad $especialidad)
-    {
-        //
-    }
 
     public function destroy($id_especialidad)
     {

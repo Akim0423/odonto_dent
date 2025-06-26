@@ -272,6 +272,19 @@
     </script>
 @endif
 
+@php
+    $exp = explode('/', $_SERVER["REQUEST_URI"]);
+@endphp
+
+@if (isset($exp[3]) && $exp[3] == 'Editar-Especialidad')
+    <script>
+        $(document).ready(function() {
+            $('#EditarEspecialidad').modal('show');
+        });
+    </script>
+@endif
+
+
 <script type="text/javascript">
 
   $(".table").on('click','.EliminarUsuario', function() {
@@ -587,7 +600,6 @@
   </script>
   
 @endif
-
 
 <!-- Botón flotante del chatbot -->
 <style>

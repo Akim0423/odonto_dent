@@ -1,9 +1,9 @@
 @extends('welcome')
 @section('contenido')
     
-    <div class="content-wrapper">
+    <div class="content-wrapper transitionIn-Y-bottom">
 
-        <section class="content-header">
+        <section class="content-header transitionIn-Y-over">
             <h1><i class="fas fa-head-side-mask"></i> Especialidades</h1>
             <br>
             
@@ -17,7 +17,7 @@
                     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#CrearEspecialidad">Crear Especialidad</button>
                 </div>
 
-                <div class="box-body">
+                <div class="box-body transitionIn-Y-bottom">
                     <h3>Especialidades</h3>
                     <table class="table table-bordered table-hover table-striped dt-responsive">
 
@@ -34,7 +34,7 @@
                         </thead>
                         <tbody>
                             
-                            @foreach ($especialidades as $especialidad)
+                            @foreach ($especialidadesActivas as $especialidad)
                                 <tr>
                                     <td>{{$especialidad->id}}</td>
                                     <td>{{$especialidad->nombre}}</td>
@@ -135,7 +135,7 @@
                             <div class="form-group">
 
                                 <h2>Precio</h2>
-                                <input type="text" name="precio" class="form-control input-lg" value="{{old('precio')}}" required>
+                                <input type="number" name="precio" class="form-control input-lg" value="{{old('precio')}}" required>
                             </div>
 
                             <div class="form-group">
@@ -180,64 +180,29 @@
                         @method('put')
 
                         <div class="modal-body">
-
                             <div class="box-body">
 
                                 <div class="form-group">
-
                                     <h2>Nombre</h2>
-                                    <input type="text" name="nombre" class="form-control input-lg" value="{{$usuario->name}}" required>
-
+                                    <input type="text" name="nombre" class="form-control input-lg" value="{{ $especialidad->nombre }}" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <h2>Rol:</h2>
-                                    <select class="form-control input-lg" name="rol" required>
-
-                                        <option value="{{$usuario->rol}}">{{$usuario->rol}}</option>
-
-                                        @php
-                                            $roles=['administrador','veterinario','secretaria']
-                                        @endphp
-
-                                        @foreach($roles as $rol)
-                                            @if($rol != $usuario->rol)
-
-                                                <option value="{{$rol}}">{{$rol}}</option>
-
-                                            @endif
-                                        @endforeach
-
-                                    </select>
+                                    <h2>Precio</h2>
+                                    <input type="number" name="precio" step="0.01" class="form-control input-lg" value="{{ $especialidad->precio }}" required>
                                 </div>
 
                                 <div class="form-group">
-
-                                    <h2>Email</h2>
-                                    <input type="text" name="email" class="form-control input-lg" value="{{$usuario->email}}" required>
-                                    @error('email')
-                                        <div class="alert alert-danger">El email ya existe</div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-
-                                    <h2>Contraseña</h2>
-                                    <input type="password" name="password" class="form-control input-lg" value="" >
-                                    @error('password')
-                                        <div class="alert alert-danger">La contraseña debe tener al menos 3 caracteres </div>
-                                    @enderror
+                                    <h2>Duración Aproximada (minutos)</h2>
+                                    <input type="number" name="duracion_aprox" class="form-control input-lg" value="{{ $especialidad->duracion_aprox }}" required>
                                 </div>
 
                             </div>
-
                         </div>
 
                         <div class="modal-footer">
-
                             <button class="btn btn-success" type="submit">Guardar</button>
                             <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
-
                         </div>
 
                     </form>

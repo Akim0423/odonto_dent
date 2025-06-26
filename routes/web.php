@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\InformeController;
+use App\Mail\RecordatorioCita;
 
 Route::get('/', function () {
     return view('modulos.users.ingresar');
@@ -31,15 +33,19 @@ Route::get('Eliminar-Usuario/{id_usuario}',[UsersController::class, 'destroy']);
 //Clientes
 Route::get('Clientes',[ClientesController::class,'index']);
 Route::get('Crear-Cliente',[ClientesController::class,'create']);
-Route::post('Editar-Cliente',[ClientesController::class,'store']);
+Route::get('Editar-Cliente/{id_cliente}',[ClientesController::class,'edit']);
 
 Route::put('Reactivar-Cliente/{id}', [ClientesController::class, 'reactivar']);
 Route::get('Eliminar-Cliente/{id_clientes}',[ClientesController::class,'destroy']);
 
+//Recordatorio
+Route::get('Recordatorio',[ClientesController::class, 'Recordatorio']);
+
 //Especialidad
 Route::get('Especialidad',[EspecialidadController::class,'index']);
 Route::put('Especialidad',[EspecialidadController::class, 'store']);
-
+Route::get('Editar-Especialidad/{id_especialidad}',[EspecialidadController::class,'edit']);
+Route::put('Actualizar-Especialidad/{id_especialidad}',[EspecialidadController::class,'update']);
 Route::get('Eliminar-Especialidad/{id_especialidad}',[EspecialidadController::class,'destroy']);
 Route::put('Reactivar-Especialidad/{id}', [EspecialidadController::class, 'reactivar']);
 
@@ -72,3 +78,12 @@ Route::get('Receta-PDF/{id_receta}',[CitasController::class,'RecetaPDF']);
 //Informe
 Route::get('Informes',[InformeController::class,'Informes']);
 Route::get('InformesPDF',[InformeController::class,'InformesPDF']);
+
+Route::get('contactar',function(){
+
+    Mail::to('clinicadental@odontodent.com')
+        ->send(new RecordatorioCita);
+    return "Mensaje Enviado";
+
+
+})->name('contactar');

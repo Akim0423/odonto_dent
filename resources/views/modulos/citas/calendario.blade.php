@@ -62,7 +62,7 @@
                                     <option value="" data-duracion="0">Seleccionar</option>
                                     @foreach($especialidades as $esp)
                                     <option value="{{ $esp->id }}" data-duracion="{{ $esp->duracion_aprox }}">
-                                        {{ $esp->nombre }}
+                                        {{ $esp->nombre }}  -  S/ {{$esp->precio}}
                                     </option>
                                     @endforeach
                                 </select>

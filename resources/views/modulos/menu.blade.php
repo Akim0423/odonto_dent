@@ -18,6 +18,14 @@
               </a>
             </li>
         @endif
+        
+        @if (auth()->user()->rol != 'doctor')
+            <li>
+              <a href="{{ url('Recordatorio') }}">
+                <i class="fas fa-bell"></i> <span>Recordatorio</span>
+              </a>
+            </li>
+        @endif
 
         <li>
           <a href="{{ url('Clientes') }}">

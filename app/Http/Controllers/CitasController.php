@@ -140,7 +140,6 @@ class CitasController extends Controller
         return back()->with('error', 'Cita no encontrada');
     }
 
-
     public function VerCitasHoy($id_doctor)
     {
         $doctor = User::find($id_doctor);

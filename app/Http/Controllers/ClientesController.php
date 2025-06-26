@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Clientes;
 use App\Models\Especialidad;
 use App\Models\Ajustes;
+use App\Models\Citas;
 use Illuminate\Http\Request;
 
 class ClientesController extends Controller
@@ -67,5 +68,18 @@ class ClientesController extends Controller
         Clientes::where('id',$id_clientes)->update(['estado'=>0]);
 
         return redirect('Clientes');
+    }
+
+    public function Recordatorio()
+    {
+        $citas = Citas::with('CLIENTE')
+            ->whereBetween('inicio', [
+                now()->addDay()->startOfDay(),
+                now()->addDay()->endOfDay()
+            ])
+            ->where('estado', 'Solicitada')
+            ->get();
+
+        return view('modulos.clientes.recordatorio', ['citas' => $citas]);
     }
 }

@@ -1,16 +1,16 @@
 @extends('welcome')
 @section('contenido')
     
-    <div class="content-wrapper">
+    <div class="content-wrapper transitionIn-Y-bottom">
 
-        <section class="content-header">
+        <section class="content-header transitionIn-Y-over">
             <h1><i class="fa fa-bar-chart"></i> Informes <a href="{{url('InformesPDF')}}" target="_blank">
                 <button type="button" class="btn btn-default">PDF</button></a></h1>
         </section>
 
         <section class="content">
 
-            <div class="box">
+            <div class="box transitionIn-Y-bottom">
                 <div class="row">
 
                     <!-- Usuarios -->

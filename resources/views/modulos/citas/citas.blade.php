@@ -1,9 +1,9 @@
 @extends('welcome')
 @section('contenido')
     
-    <div class="content-wrapper">
+    <div class="content-wrapper transitionIn-Y-bottom">
 
-        <section class="content-header">
+        <section class="content-header transitionIn-Y-over">
             <h1><i class="fa fa-stethoscope"></i>Elija un Doctor</h1>
         </section>
 
@@ -11,7 +11,7 @@
 
             <div class="box">
 
-                <div class="box-body">
+                <div class="box-body transitionIn-Y-bottom">
 
                     @foreach ($doctores as $doctor)
                         
