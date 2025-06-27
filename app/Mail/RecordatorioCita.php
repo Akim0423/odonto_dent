@@ -14,12 +14,14 @@ class RecordatorioCita extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $cita;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($cita)
     {
-        //
+        $this->cita = $cita;
     }
 
     /**
@@ -28,8 +30,8 @@ class RecordatorioCita extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('clinicadental@odontodent.com'),
-            subject: 'Recordatorio Cita',
+            from: new Address('was4bi706@gmail.com','OdontoDent'),
+            subject: 'Recordatorio de Cita - Clínica Dental OdontoDent',
         );
     }
 
@@ -39,7 +41,10 @@ class RecordatorioCita extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.recordatorio',
+            with: [
+                'cita' => $this->cita
+            ],
         );
     }
 

@@ -18,6 +18,7 @@
                         <thead>
                             <tr>
                                 <th>Paciente</th>
+                                <th>Doctor</th>
                                 <th>Correo</th>
                                 <th>Motivo</th>
                                 <th>Fecha Cita</th>
@@ -29,18 +30,26 @@
                         <tbody>
                             @foreach($citas as $cita)
                                 <tr>
-                                    <td>{{ $cita->CLIENTE->nombre }}</td>
-                                    <td>{{ $cita->CLIENTE->email }}</td>
-                                    <td>{{ $cita->ESPECIALIDAD->nombre }}</td>
+                                    <td>{{ $cita->cliente->nombre }}</td>
+                                    <td>{{ $cita->doctor->name }}</td>
+                                    <td>{{ $cita->cliente->email }}</td>
+                                    <td>{{ $cita->especialidad->nombre }}</td>
                                     <td>{{ $cita->inicio }}</td>
                                     <td>
-                                        <form method="POST" action="{{ url('Enviar-Recordatorio') }}">
-                                            @csrf
-                                            <input type="hidden" name="id_cita" value="{{ $cita->id }}">
-                                            <input type="hidden" name="email" value="{{ $cita->CLIENTE->email }}">
-                                            <button type="submit" class="btn btn-primary">Enviar Recordatorio</button>
-                                        </form>
+                                        @if ($cita->recordatorio_enviado)
+                                            <button class="btn btn-success" disabled>
+                                                <i class="fas fa-check"></i> Enviado
+                                            </button>
+                                        @else
+                                            <form method="POST" action="{{ url('Enviar-Recordatorio') }}">
+                                                @csrf
+                                                <input type="hidden" name="id_cita" value="{{ $cita->id }}">
+                                                <input type="hidden" name="email" value="{{ $cita->cliente->email ?? '' }}">
+                                                <button type="submit" class="btn btn-primary">Enviar Recordatorio</button>
+                                            </form>
+                                        @endif
                                     </td>
+
                                     
                                 </tr>
                             @endforeach

@@ -27,12 +27,17 @@ class Citas extends Model
 
     public $timestamps = false;
 
-    public function CLIENTE()
+    public function cliente()
     {
         return $this->belongsTo(Clientes::class, 'id_cliente');
     }
 
-    public function ESPECIALIDAD() 
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'id_doctor');
+    }
+
+    public function especialidad() 
     {
         return $this->belongsTo(Especialidad::class, 'id_especialidad');
     }

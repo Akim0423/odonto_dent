@@ -257,6 +257,18 @@
         '',
         'success'
       )
+  @elseif(session('success'))
+      Swal.fire(
+          '{{ session('success') }}',
+          '',
+          'success'
+      )
+  @elseif(session('error'))
+      Swal.fire(
+          '{{ session('error') }}',
+          '',
+          'error'
+      )
   
   @endif    
 

@@ -40,6 +40,7 @@ Route::get('Eliminar-Cliente/{id_clientes}',[ClientesController::class,'destroy'
 
 //Recordatorio
 Route::get('Recordatorio',[ClientesController::class, 'Recordatorio']);
+Route::post('Enviar-Recordatorio', [ClientesController::class, 'EnviarRecordatorio']);
 
 //Especialidad
 Route::get('Especialidad',[EspecialidadController::class,'index']);
