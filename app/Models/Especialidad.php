@@ -13,6 +13,7 @@ class Especialidad extends Model
         'nombre',
         'precio',
         'duracion_aprox',
+        'tipo',
         'estado'
     ];
 

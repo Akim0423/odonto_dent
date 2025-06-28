@@ -497,7 +497,7 @@
                       backgroundColor: '#1C72FF',
                       borderColor: '1C72FF',
                       estado: '{{$cita->estado}}',
-                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}}'
+                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}} | S/{{$cita->ESPECIALIDAD->precio}}'
                     },
                   @elseif($cita->estado == 'Finalizada')  
                     {
@@ -508,18 +508,19 @@
                       backgroundColor: '#0FA603',
                       borderColor: '#0FA603',
                       estado: '{{$cita->estado}}',
-                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}}'
+                      id_especialidad: '{{$cita->id_especialidad}}',
+                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}} | S/{{$cita->ESPECIALIDAD->precio}}'
                     },
                   @elseif($cita->estado == 'En Proceso')  
                     {
                       id: '{{$cita->id}}',
-                      title: '{{$cliente->nombre}} - {{$cliente->documento  }} | {{$cita->estado}}',
+                      title: '{{$cliente->nombre}} - {{$cliente->documento  }} | S/{{$cita->estado}}',
                       start: '{{$cita->inicio}}',
                       end: '{{$cita->fin}}', 
                       backgroundColor: '#D88B03',
                       borderColor: '#D88B03',
                       estado: '{{$cita->estado}}',
-                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}}'
+                      especialidad: '{{$cita->ESPECIALIDAD->nombre ?? "Sin especialidad"}} | {{$cita->ESPECIALIDAD->precio}}'
                     },  
                   @endif
 
@@ -592,6 +593,7 @@
             $("#CancelarCita").modal();
             $("#paciente").html(calEvent.title);
             $("#CitaId").val(calEvent.id);
+
             $("#especialidad_text").text(calEvent.especialidad);
             $("#EspecialidadId").val(calEvent.id_especialidad);
           }
@@ -608,6 +610,36 @@
 
             $("#fyhFinal").val(fin.format('YYYY-MM-DD HH:mm:ss'));
         });
+
+
+        $('#tipo_especialidad').on('change', function () {
+            var tipoSeleccionado = $(this).val();
+            var url = "{{ url('Filtrar-Especialidades') }}";
+
+            if (tipoSeleccionado === "") {
+                // Mostrar todas las especialidades
+                $('#especialidad').empty();
+                @foreach($especialidades as $esp)
+                    $('#especialidad').append('<option value="{{ $esp->id }}" data-duracion="{{ $esp->duracion_aprox }}" data-tipo="{{ $esp->tipo }}">{{ $esp->nombre }} - S/ {{ $esp->precio }}</option>');
+                @endforeach
+            } else {
+                // AJAX para filtrar
+                $.ajax({
+                    url: url + '/' + tipoSeleccionado,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#especialidad').empty();
+                        $('#especialidad').append('<option value="">Seleccionar</option>');
+                        $.each(data, function (key, esp) {
+                            $('#especialidad').append('<option value="' + esp.id + '" data-duracion="' + esp.duracion_aprox + '" data-tipo="' + esp.tipo + '">' + esp.nombre + ' - S/ ' + esp.precio + '</option>');
+                        });
+                    }
+                });
+            }
+
+            $('#especialidad').val('');
+        });
+
 
   </script>
   

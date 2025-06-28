@@ -114,6 +114,7 @@ class CitasController extends Controller
             'id_doctor'=>$datos["id_doctor"],
             'id_cliente'=>$datos["id_cliente"],
             'id_especialidad'=>$datos["id_especialidad"],
+            'tipo_cita'=>$datos["tipo_cita"],
             'inicio'=>$datos["inicio"],
             'fin'=>$datos["fin"],
             'nota'=>$nota,

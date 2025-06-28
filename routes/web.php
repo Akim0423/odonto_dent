@@ -41,6 +41,9 @@ Route::get('Eliminar-Cliente/{id_clientes}',[ClientesController::class,'destroy'
 //Recordatorio
 Route::get('Recordatorio',[ClientesController::class, 'Recordatorio']);
 Route::post('Enviar-Recordatorio', [ClientesController::class, 'EnviarRecordatorio']);
+Route::get('/PDFs', [ClientesController::class, 'RecordatoriosPDF']);
+Route::get('Filtrar-Especialidades/{tipo}', [ClientesController::class, 'FiltrarEspecialidades']);
+
 
 //Especialidad
 Route::get('Especialidad',[EspecialidadController::class,'index']);
@@ -80,11 +83,11 @@ Route::get('Receta-PDF/{id_receta}',[CitasController::class,'RecetaPDF']);
 Route::get('Informes',[InformeController::class,'Informes']);
 Route::get('InformesPDF',[InformeController::class,'InformesPDF']);
 
-Route::get('contactar',function(){
+// Route::get('contactar',function(){
 
-    Mail::to('clinicadental@odontodent.com')
-        ->send(new RecordatorioCita);
-    return "Mensaje Enviado";
+//     Mail::to('clinicadental@odontodent.com')
+//         ->send(new RecordatorioCita);
+//     return "Mensaje Enviado";
 
 
-})->name('contactar');
+// })->name('contactar');

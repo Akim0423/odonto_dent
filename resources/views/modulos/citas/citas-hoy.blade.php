@@ -110,7 +110,7 @@
                                 <tr>
                                     <td>{{$citaH->inicio}}</td>
                                     <td>{{$citaH->CLIENTE->nombre}}</td>
-                                    <td>{{$cita->ESPECIALIDAD->nombre}}</td>
+                                    <td>{{$citaH->ESPECIALIDAD->nombre}}</td>
                                     <td>{!!$citaH->nota!!}</td>
 
                                     <td>

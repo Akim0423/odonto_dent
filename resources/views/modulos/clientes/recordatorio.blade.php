@@ -4,7 +4,8 @@
     <div class="content-wrapper">
 
         <section class="content-header">
-            <h1> Recordatorio a los Clientes</h1>
+            <h1> Recordatorio a los Clientes <a href="{{url('PDFs')}}" target="_blank">
+                <button type="button" class="btn btn-default">PDF</button></a></h1>
         </section>
 
         <section class="content">

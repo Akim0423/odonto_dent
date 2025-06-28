@@ -79,7 +79,7 @@
             <p><strong>Fecha y Hora:</strong> {{ \Carbon\Carbon::parse($cita->inicio)->format('d/m/Y H:i') }}</p>
             <p><strong>Especialidad:</strong> {{ $cita->especialidad->nombre }}</p>
             <p><strong>Con el Doctor:</strong> {{ $cita->doctor->name }}</p>
-            <p><strong>Paciente:</strong> {{ $cita->cliente->nombre ?? 'Paciente' }}</p>
+            {{-- <p><strong>Paciente:</strong> {{ $cita->cliente->nombre ?? 'Paciente' }}</p> --}}
         </div>
         
         <p><strong>Recomendaciones importantes:</strong></p>
@@ -99,8 +99,8 @@
     </div>
     
     <div class="footer">
-        <p>📞 Teléfono: (01) 234-5678 | 📧 Email: clinicadental@odontodent.com</p>
-        <p>📍 Dirección: Av. Principal 123, San Isidro, Lima</p>
+        <p>📞 Teléfono: {{$ajustes->telefono}} | 📧 Email: clinicadental@odontodent.com</p>
+        <p>📍 Dirección: {{ $ajustes->direccion ?? 'Dirección no disponible' }}</p>
     </div>
 </body>
 </html>

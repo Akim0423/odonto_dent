@@ -56,14 +56,25 @@
                             </div>
 
                             <div class="form-group">
-                                <h2>Especialidad</h2>
+                                <h2>Tipo de Cita:</h2>
+                                <select id="tipo_especialidad" name="tipo_cita" class="form-control input-lg select2"  style="width: 100%;" required url="{{url('')}}"> 
+                                    <option value="">Mostrar todas</option>
+                                    <option value="Consulta">Consulta</option>
+                                    <option value="Tratamiento">Tratamiento</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <h2>Servicios:</h2>
                                 <select id="especialidad" name="id_especialidad" class="form-control input-lg select2" 
-                                style="width: 100%;" required>
+                                style="width: 100%;" required >
                                     <option value="" data-duracion="0">Seleccionar</option>
                                     @foreach($especialidades as $esp)
-                                    <option value="{{ $esp->id }}" data-duracion="{{ $esp->duracion_aprox }}">
-                                        {{ $esp->nombre }}  -  S/ {{$esp->precio}}
-                                    </option>
+                                        <option value="{{ $esp->id }}" 
+                                                data-duracion="{{ $esp->duracion_aprox }}" 
+                                                data-tipo="{{ $esp->tipo }}">
+                                            {{ $esp->nombre }} - S/ {{ $esp->precio }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -98,9 +109,12 @@
                         <button class="btn btn-danger" type="button" data-dismiss="modal">Cerrar</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
+
+    
 
     <div id="CancelarCita" class="modal fade">
         <div class="modal-dialog">

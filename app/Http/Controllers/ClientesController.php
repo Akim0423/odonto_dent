@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Clientes;
 use App\Models\Especialidad;
 use App\Models\Ajustes;
+use App\Models\User;
 use App\Models\Citas;
 use App\Models\Recordatorio;
-use Illuminate\Http\Request;
 use App\Mail\RecordatorioCita;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Elibyy\TCPDF\Facades\TCPDF;
 
 class ClientesController extends Controller
 {
@@ -140,8 +142,10 @@ class ClientesController extends Controller
             if (!$cita->cliente || !$cita->cliente->email) {
                 return redirect()->back()->with('error', 'No se encontró el cliente o el cliente no tiene correo.');
             }
+
+            $ajustes = Ajustes::first();
             // Enviar el correo
-            Mail::to($request->email)->send(new RecordatorioCita($cita));
+            Mail::to($request->email)->send(new RecordatorioCita($cita,$ajustes));
 
             // Registrar el recordatorio en la base de datos
             Recordatorio::create([
@@ -169,5 +173,78 @@ class ClientesController extends Controller
 
             return redirect()->back()->with('error', 'Error al enviar el recordatorio: ' . $e->getMessage());
         }
+    }
+
+    public function FiltrarEspecialidades($tipo)
+    {
+        $especialidades = Especialidad::where('tipo', $tipo)
+                                ->where('estado', 'Activo')
+                                ->get();
+
+        return response()->json($especialidades);
+    }
+
+    public function RecordatoriosPDF()
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P','mm','A4',true,'UTF-8',false);
+
+        $pdf->SetCreator('OdontoDent');
+        $pdf->SetTitle('Citas próximas - Recordatorio');
+        $pdf->SetMargins(10,10,10,false);
+        $pdf->SetAutoPageBreak(true,20);
+        $pdf->AddPage();
+
+        $ajustes = Ajustes::find(1);
+        $logo = storage_path('app/public/logo.png');
+        // $pdf->Image($logo, 150, 10 ,40, '', '', '', 'T', false, 300, '', false, false, 0, false, false, false);
+
+        $citas = Citas::with(['cliente', 'especialidad'])
+                    ->where('inicio', '>=', now())
+                    ->where('inicio', '<=', now()->addDays(7))
+                    ->orderBy('inicio', 'asc')
+                    ->get();
+
+        // Marcar si tiene recordatorio
+        foreach ($citas as $cita) {
+            $recordatorio = Recordatorio::where('id_cita', $cita->id)
+                                ->where('estado', 'like', 'Enviado%')
+                                ->latest('fecha_envio')
+                                ->first();
+
+            $cita->recordatorio_enviado = $recordatorio ? true : false;
+            $cita->fecha_recordatorio = $recordatorio->fecha_envio ?? null;
+        }
+
+        $html = '<h2 style="text-align:center;"> Citas Próximas con Recordatorio</h2>';
+        $html .= '<table border="1" cellpadding="5">
+                    <thead>
+                        <tr style="background-color:#f2f2f2;">
+                            <th width:"25%">Cliente</th>
+                            <th width:"25%">Email</th>
+                            <th width:"25%">Especialidad</th>
+                            <th width:"25%">Fecha</th>
+                            <th width:"25%">Hora</th>
+                            <th width:"25%">Recordatorio</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+        foreach ($citas as $index => $cita) {
+            $html .= '<tr>
+                        <td>'.($index + 1).'</td>
+                        <td>'.($cita->cliente->nombre ?? 'Sin nombre').'</td>
+                        <td>'.($cita->cliente->email ?? 'Sin email').'</td>
+                        <td>'.($cita->especialidad->nombre ?? 'Sin especialidad').'</td>
+                        <td>'.\Carbon\Carbon::parse($cita->inicio)->format('d/m/Y').'</td>
+                        <td>'.\Carbon\Carbon::parse($cita->inicio)->format('H:i').'</td>
+                        <td>'.($cita->recordatorio_enviado ? ' Enviado' : ' No enviado').'</td>
+                    </tr>';
+        }
+
+        $html .= '</tbody></table>';
+        $html .= '<br><p style="text-align:center;">'.$ajustes->direccion.' | '.$ajustes->telefono.'</p>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->Output('Citas-Proximas-Recordatorio.pdf', 'I');
     }
 }

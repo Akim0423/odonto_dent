@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="box-body transitionIn-Y-bottom">
-                    <h3>Especialidades</h3>
+                    <h3>Tratamientos</h3>
                     <table class="table table-bordered table-hover table-striped dt-responsive">
 
                         <thead>
@@ -34,7 +34,7 @@
                         </thead>
                         <tbody>
                             
-                            @foreach ($especialidadesActivas as $especialidad)
+                            @foreach ($especialidades as $especialidad)
                                 <tr>
                                     <td>{{$especialidad->id}}</td>
                                     <td>{{$especialidad->nombre}}</td>
@@ -51,9 +51,59 @@
                                             <button class="btn btn-success"><i class="fa fa-pencil"></i></button>
                                         </a>
 
-                                        <a href="{{url('Eliminar-Especialidad/'.$especialidad->id)}}">
-                                            <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                        @if (Auth::user()->rol == 'administrador')
+                                            <a href="{{url('Eliminar-Especialidad/'.$especialidad->id)}}">
+                                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                            </a>
+                                        @endif
+                                    </td>
+
+                                </tr>               
+                            @endforeach
+                                    
+                                
+                        </tbody>
+
+                    </table>
+
+                    <br><br>
+                    <h3>Consultas</h3>
+                    <table class="table table-bordered table-hover table-striped dt-responsive">
+
+                        <thead>
+                            <tr class="table-primary">
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Duracion Aprox</th>
+                                <th>Estado</th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            @foreach ($especialidadesConsulta as $especialidad)
+                                <tr>
+                                    <td>{{$especialidad->id}}</td>
+                                    <td>{{$especialidad->nombre}}</td>
+                                    @php
+                                        $tot = floatval($especialidad->precio);
+                                        $precio = number_format($tot,2,'.',',');
+                                    @endphp
+                                    <td>S/ {{$precio}}</td>
+                                    <td>{{$especialidad->duracion_aprox}} min.</td>
+                                    <td>{{$especialidad->estado}}</td>
+
+                                    <td>
+                                        <a href="{{url('Editar-Especialidad/'.$especialidad->id)}}">                                       
+                                            <button class="btn btn-success"><i class="fa fa-pencil"></i></button>
                                         </a>
+                                        @if (Auth::user()->rol == 'administrador')
+                                            <a href="{{url('Eliminar-Especialidad/'.$especialidad->id)}}">
+                                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                            </a>
+                                        @endif
                                     </td>
 
                                 </tr>               
@@ -133,15 +183,24 @@
                             </div>
 
                             <div class="form-group">
-
-                                <h2>Precio</h2>
-                                <input type="number" name="precio" class="form-control input-lg" value="{{old('precio')}}" required>
+                                <h2>Tipo</h2>
+                                <select name="tipo" class="form-control input-lg" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Tratamiento" {{ old('tipo') == 'Tratamiento' ? 'selected' : '' }}>Tratamiento</option>
+                                    <option value="Consulta" {{ old('tipo') == 'Consulta' ? 'selected' : '' }}>Consulta</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
 
-                                <h2>Duracion_aprox</h2>
-                                <input type="text" name="duracion_aprox" class="form-control input-lg" value="{{old('duracion_aprox')}}" required>
+                                <h2>Precio (S/)</h2>
+                                <input type="number" step="1" min="0" name="precio" class="form-control input-lg" value="{{old('precio')}}" required>
+                            </div>
+
+                            <div class="form-group">
+
+                                <h2>Duracion Aprox. (minutos)</h2>
+                                <input type="text" name="duracion_aprox" min="1" class="form-control input-lg" value="{{old('duracion_aprox')}}" required>
                             </div>
 
                         </div>
@@ -162,7 +221,6 @@
         </div>
 
     </div>
-
 
     @php
         $exp = explode('/',$_SERVER["REQUEST_URI"]);
@@ -185,6 +243,15 @@
                                 <div class="form-group">
                                     <h2>Nombre</h2>
                                     <input type="text" name="nombre" class="form-control input-lg" value="{{ $especialidad->nombre }}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <h2>Tipo</h2>
+                                    <select name="tipo" class="form-control input-lg" required>
+                                        <option value="">Seleccionar...</option>
+                                        <option value="Tratamiento" {{ $especialidad->tipo == 'Tratamiento' ? 'selected' : '' }}>Tratamiento</option>
+                                        <option value="Consulta" {{ $especialidad->tipo == 'Consulta' ? 'selected' : '' }}>Consulta</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-group">

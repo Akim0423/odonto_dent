@@ -10,10 +10,11 @@ class EspecialidadController extends Controller
 
     public function index()
     {
-        $especialidadesActivas = Especialidad::where('estado', 'Activo')->get();
+        $especialidades = Especialidad::where('tipo', 'Tratamiento')->get();
+        $especialidadesConsulta = Especialidad::where('tipo', 'Consulta')->get();
         $especialidadesInactiva = Especialidad::where('estado', 'Inactivo')->get();
 
-        return view('modulos.clientes.especialidad', compact('especialidadesActivas','especialidadesInactiva'));
+        return view('modulos.clientes.especialidad', compact('especialidades','especialidadesInactiva','especialidadesConsulta'));
     }
 
     public function store(Request $request)
@@ -21,6 +22,7 @@ class EspecialidadController extends Controller
         Especialidad::create([
             'nombre'=>$request->nombre,
             'precio'=>$request->precio,
+            'tipo'=>$request->tipo,
             'duracion_aprox'=>$request->duracion_aprox,
             'estado'=>'Activo'
         ]);
@@ -39,11 +41,11 @@ class EspecialidadController extends Controller
 
     public function edit($id_especialidad)
     {
-        $especialidadesActivas = Especialidad::where('estado', 'Activo')->get();
+        $especialidades = Especialidad::where('tipo', 'Tratamiento')->get();
+        $especialidadesConsulta = Especialidad::where('tipo', 'Consulta')->get();
         $especialidadesInactiva = Especialidad::where('estado', 'Inactivo')->get();
-        $especialidad = Especialidad::find($id_especialidad);
 
-        return view('modulos.clientes.especialidad', compact('especialidadesActivas', 'especialidadesInactiva', 'especialidad'));
+        return view('modulos.clientes.especialidad', compact('especialidades','especialidadesInactiva','especialidadesConsulta'));
     }
 
 

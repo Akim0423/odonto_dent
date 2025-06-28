@@ -13,6 +13,7 @@ class Citas extends Model
         'id_doctor',
         'id_cliente',
         'id_especialidad',
+        'tipo_cita',
         'nota',
         'estado',
         'inicio',
