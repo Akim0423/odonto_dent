@@ -42,8 +42,6 @@ Route::get('Eliminar-Cliente/{id_clientes}',[ClientesController::class,'destroy'
 Route::get('Recordatorio',[ClientesController::class, 'Recordatorio']);
 Route::post('Enviar-Recordatorio', [ClientesController::class, 'EnviarRecordatorio']);
 Route::get('/PDFs', [ClientesController::class, 'RecordatoriosPDF']);
-Route::get('Filtrar-Especialidades/{tipo}', [ClientesController::class, 'FiltrarEspecialidades']);
-
 
 //Especialidad
 Route::get('Especialidad',[EspecialidadController::class,'index']);
@@ -52,6 +50,7 @@ Route::get('Editar-Especialidad/{id_especialidad}',[EspecialidadController::clas
 Route::put('Actualizar-Especialidad/{id_especialidad}',[EspecialidadController::class,'update']);
 Route::get('Eliminar-Especialidad/{id_especialidad}',[EspecialidadController::class,'destroy']);
 Route::put('Reactivar-Especialidad/{id}', [EspecialidadController::class, 'reactivar']);
+Route::get('Filtrar-Especialidades/{tipo}', [EspecialidadController::class, 'FiltrarEspecialidades']);
 
 //Doctor
 Route::get('Doctores',[CitasController::class,'VerDoctores']);

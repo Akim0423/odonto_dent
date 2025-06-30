@@ -58,6 +58,14 @@ class EspecialidadController extends Controller
         return redirect('Especialidad')->with('EspecialidadActualizada', 'OK');
     }
 
+    public function FiltrarEspecialidades($tipo)
+    {
+        $especialidades = Especialidad::where('tipo', $tipo)
+                                ->where('estado', 'Activo')
+                                ->get();
+
+        return response()->json($especialidades);
+    }
 
     public function destroy($id_especialidad)
     {

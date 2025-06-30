@@ -29,10 +29,28 @@
           <ul class="treeview-menu">
 
             <li>
+              @php
+                use App\Models\Citas;
+                use App\Models\Ajustes;
+                use Carbon\Carbon;
+
+                $ajustes = Ajustes::find(1);
+                date_default_timezone_set($ajustes->zona_horaria);
+                $fechaHoy = date('Y-m-d');
+
+                $cantidadCitasHoy = Citas::where('id_doctor', auth()->id())
+                    ->where('inicio', 'like', $fechaHoy.'%')
+                    ->count();
+              @endphp
               <a href="{{ url('Citas-Hoy/'.auth()->user()->id) }}">
                 <i class="fa fa-calendar-check-o"></i> 
                 <span>Citas</span>
+
+                @if($cantidadCitasHoy > 0)
+                  <span class="label label-success pull-right">{{ $cantidadCitasHoy }}</span>
+                @endif
               </a>
+
             </li>
 
           </ul>

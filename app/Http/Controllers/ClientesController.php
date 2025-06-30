@@ -173,16 +173,7 @@ class ClientesController extends Controller
 
             return redirect()->back()->with('error', 'Error al enviar el recordatorio: ' . $e->getMessage());
         }
-    }
-
-    public function FiltrarEspecialidades($tipo)
-    {
-        $especialidades = Especialidad::where('tipo', $tipo)
-                                ->where('estado', 'Activo')
-                                ->get();
-
-        return response()->json($especialidades);
-    }
+    }    
 
     public function RecordatoriosPDF()
     {
