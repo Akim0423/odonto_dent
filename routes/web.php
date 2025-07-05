@@ -33,8 +33,9 @@ Route::get('Eliminar-Usuario/{id_usuario}',[UsersController::class, 'destroy']);
 //Clientes
 Route::get('Clientes',[ClientesController::class,'index']);
 Route::get('Crear-Cliente',[ClientesController::class,'create']);
+Route::post('Crear-Cliente',[ClientesController::class,'store']);
 Route::get('Editar-Cliente/{id_cliente}',[ClientesController::class,'edit']);
-
+Route::put('Actualizar-Cliente/{id_cliente}',[ClientesController::class,'update']);
 Route::put('Reactivar-Cliente/{id}', [ClientesController::class, 'reactivar']);
 Route::get('Eliminar-Cliente/{id_clientes}',[ClientesController::class,'destroy']);
 

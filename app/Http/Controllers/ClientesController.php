@@ -59,6 +59,71 @@ class ClientesController extends Controller
         return redirect('Clientes')->with('ClienteAgregado', 'OK');
     }
 
+    public function edit($id_cliente)
+    {
+        $cliente = Clientes::find($id_cliente);
+
+        return view('modulos.clientes.editar-cliente',compact('cliente'));
+    }
+
+    public function update(Request $request,$id_cliente)
+    {
+        $cliente = Clientes::find($id_cliente);
+
+        if ($cliente["documento"] != request('documento') && $cliente["email"] != request('email')){
+
+            $datos = request()->validate([
+
+                'nombre' =>["string",'max:255'],
+                'email' =>["email",'unique:clientes'],
+                'documento' =>["string",'unique:clientes'],
+                'telefono' =>["string"],
+                'direccion' =>["string"]
+
+            ]);
+        }else if($cliente["documento"] != request('documento') && $cliente["email"] == request('email')){
+            $datos = request()->validate([
+
+                'nombre' =>["string",'max:255'],
+                'email' =>["email"],
+                'documento' =>["string",'unique:clientes'],
+                'telefono' =>["string"],
+                'direccion' =>["string"]
+
+            ]);
+        }else if($cliente["documento"] == request('documento') && $cliente["email"] == request('email')){
+            $datos = request()->validate([
+
+                'nombre' =>["string",'max:255'],
+                'email' =>["email"],
+                'documento' =>["string"],
+                'telefono' =>["string"],
+                'direccion' =>["string"]
+
+            ]);
+        }else if($cliente["documento"] == request('documento') && $cliente["email"] != request('email')){
+            $datos = request()->validate([
+
+                'nombre' =>["string",'max:255'],
+                'email' =>["email",'unique:clientes'],
+                'documento' =>["string"],
+                'telefono' =>["string"],
+                'direccion' =>["string"]
+
+            ]);
+        }
+
+        DB::table('clientes')->where('id',$id_cliente)->update([
+            'nombre' =>$datos["nombre"],
+            'email' =>$datos["email"],
+            'documento' =>$datos["documento"],
+            'telefono' =>$datos["telefono"],
+            'direccion' =>$datos["direccion"]
+        ]);
+
+        return redirect('Clientes')->with('ClienteActualizado','OK');
+    }
+
     public function reactivar($id)
     {
         $cliente = Clientes::findOrFail($id);
@@ -66,11 +131,6 @@ class ClientesController extends Controller
         $cliente->save();
 
         return redirect('Clientes')->with('ClienteReactivado', 'OK');
-    }
-
-    public function update(Request $request, Clientes $clientes)
-    {
-        
     }
 
     public function destroy($id_clientes)

@@ -197,6 +197,12 @@
         '',
         'success'
       )
+  @elseif(session('ClienteActualizado')=='OK')
+      Swal.fire(
+        'El Cliente ha sido Actualizado',
+        '',
+        'success'
+      )
   @elseif(session('DoctorCreado')=='OK')
       Swal.fire(
         'El Doctor ha sido Agregado',
