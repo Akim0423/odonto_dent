@@ -43,6 +43,7 @@
                                         $precio = number_format($tot,2,'.',',');
                                     @endphp
                                     <td>S/ {{$precio}}</td>
+
                                     <td>{{$especialidad->duracion_aprox}} min.</td>
                                     <td>{{$especialidad->estado}}</td>
 
@@ -92,6 +93,7 @@
                                         $precio = number_format($tot,2,'.',',');
                                     @endphp
                                     <td>S/ {{$precio}}</td>
+
                                     <td>{{$especialidad->duracion_aprox}} min.</td>
                                     <td>{{$especialidad->estado}}</td>
 
@@ -200,7 +202,7 @@
                             <div class="form-group">
 
                                 <h2>Duracion Aprox. (minutos)</h2>
-                                <input type="text" name="duracion_aprox" min="1" class="form-control input-lg" value="{{old('duracion_aprox')}}" required>
+                                <input type="number" name="duracion_aprox" step="30" class="form-control input-lg" value="{{old('duracion_aprox')}}" required>
                             </div>
 
                         </div>

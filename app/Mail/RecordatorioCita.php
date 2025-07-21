@@ -32,7 +32,7 @@ class RecordatorioCita extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('krystal21@ethereal.email','OdontoDent'),
+            from: new Address('sim35@ethereal.email','OdontoDent'),
             subject: 'Recordatorio de Cita - Clínica Dental OdontoDent',
         );
     }

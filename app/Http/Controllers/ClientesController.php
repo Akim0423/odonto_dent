@@ -270,11 +270,12 @@ class ClientesController extends Controller
         $html .= '<table border="1" cellpadding="5">
                     <thead>
                         <tr style="background-color:#f2f2f2;">
+                            
                             <th width:"25%">Cliente</th>
                             <th width:"25%">Email</th>
                             <th width:"25%">Especialidad</th>
                             <th width:"25%">Fecha</th>
-                            <th width:"25%">Hora</th>
+                            <th width:"15%">Hora</th>
                             <th width:"25%">Recordatorio</th>
                         </tr>
                     </thead>
@@ -282,7 +283,7 @@ class ClientesController extends Controller
 
         foreach ($citas as $index => $cita) {
             $html .= '<tr>
-                        <td>'.($index + 1).'</td>
+                        
                         <td>'.($cita->cliente->nombre ?? 'Sin nombre').'</td>
                         <td>'.($cita->cliente->email ?? 'Sin email').'</td>
                         <td>'.($cita->especialidad->nombre ?? 'Sin especialidad').'</td>

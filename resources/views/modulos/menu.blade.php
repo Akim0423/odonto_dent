@@ -69,14 +69,14 @@
         </li>
 
         <hr>
-
+        @if (auth()->user()->rol == 'administrador')
         <li>
           <a href="{{ url('Informes') }}">
             <i class="fa fa-bar-chart"></i> 
             <span>Informes</span>
           </a>
         </li>
-
+        @endif
       </ul>
     </section>
     <!-- /.sidebar -->
