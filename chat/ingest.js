@@ -19,7 +19,9 @@ async function ingestData() {
     const [citas] = await connection.execute('SELECT id, id_doctor, id_cliente, inicio, fin, nota, estado FROM citas');
     const [historial] = await connection.execute('SELECT id, id_doctor, id_cliente, id_cita, fecha, nota FROM historial_clinico');
     const [recetas] = await connection.execute('SELECT id, id_cita, receta FROM recetas');
-    const [users] = await connection.execute('SELECT id, name, email, rol FROM users');
+    const [users] = await connection.execute('SELECT id, name, email, rol ,estado FROM users');
+    const [especialidad] = await connection.execute('SELECT id, nombre, precio, tipo ,duracion_aprox,estado FROM especialidades');
+    const [recordatorio] = await connection.execute('SELECT id,id_cita,id_secretaria,email,fecha_envio,estado FROM recordatorio');
     // Mapas auxiliares para obtener nombres desde los IDs
     const mapClientes = Object.fromEntries(clientes.map(c => [c.id, c.nombre]));
     const mapDoctores = Object.fromEntries(users.filter(u => u.rol === 'doctor').map(d => [d.id, d.name]));
@@ -40,7 +42,7 @@ async function ingestData() {
     // Clientes
     clientes.forEach(c => {
         documentos.push({
-            pageContent: `Cliente: ${c.nombre}, Documento: ${c.documento}, Teléfono: ${c.telefono}, Dirección: ${c.direccion}.`,
+            pageContent: `Cliente: ${c.nombre}, Documento: ${c.documento}, Correo: ${c.email}, Teléfono: ${c.telefono}, Dirección: ${c.direccion}.`,
             metadata: { tipo: 'cliente', id: c.id }
         });
     });
@@ -73,16 +75,43 @@ async function ingestData() {
         });
     });
 
+    users.forEach(u => {
+        documentos.push({
+            pageContent: `Usuario: ${u.name}, Rol: ${u.rol}, Email: ${u.email}, Estado: ${u.estado}.`,
+            metadata: { tipo: 'usuario', id: u.id }
+        });
+    });
+
     // Usuarios (médicos, secretarios, admin)
     // Agrupar todos los doctores en un solo documento
     const doctores = users.filter(u => u.rol === 'doctor');
-    if (doctores.length > 0) {
-        const nombres = doctores.map(d => d.name).join(', ');
+    if (doctores.length) {
+        const grupo = estado => doctores.filter(d => d.estado === estado).map(d => d.name).join(', ') || 'Ninguno';
+
         documentos.push({
-            pageContent: `Los doctores registrados en la clínica son: ${nombres}.`,
+            pageContent: `Doctores registrados (${doctores.length}):
+    - Disponibles: ${grupo('Disponible')}
+    - No disponibles: ${grupo('No Disponible')}`,
             metadata: { tipo: 'resumen_doctores' }
         });
     }
+
+    // ESPECIALIDADES
+    if (especialidad.length) {
+        const nombres = especialidad.map(e => e.nombre).join(', ');
+        documentos.push({
+            pageContent: `Hay ${especialidad.length} especialidades registradas: ${nombres}.`,
+            metadata: { tipo: 'resumen_especialidades' }
+        });
+    }
+
+
+    recordatorio.forEach(r => {
+        documentos.push({
+            pageContent: `Recordatorio ID ${r.id}: Cita ID ${r.id_cita}, Secretaria ID ${r.id_secretaria}, Enviado a: ${r.email}, Fecha de envío: ${r.fecha_envio}, Estado: ${r.estado}.`,
+            metadata: { tipo: 'recordatorio', id: r.id }
+        });
+    });
 
 
     // Separar los textos en fragmentos

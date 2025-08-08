@@ -44,9 +44,12 @@ async function initializeChain() {
             apiKey: process.env.GOOGLE_API_KEY,
             temperature: 0.7,
     //            model: "gemini-pro" // en vez de modelName, algunas versiones usan 'model'
-            model: "gemini-1.5-flash"
+            model: "gemini-2.5-flash"
+            // model: "gemini-1.5-flash"
     
         });
+        
+        console.log("Modelo configurado:", llm.model);
 
 
         // 4. Crear el retriever para buscar en la base de datos vectorial
@@ -55,9 +58,11 @@ async function initializeChain() {
         // 5. Definir un prompt personalizado (¡Muy importante para la calidad de la respuesta!)
         const customPromptTemplate = `
         Eres un asistente virtual profesional diseñado para asistir al personal interno de una clínica dental: administradores, médicos y secretarios. 
-        Responde preguntas únicamente relacionadas con la gestión interna de la clínica, como información de pacientes, citas, historial clínico, recetas, doctores y configuración general.
+        Responde preguntas únicamente relacionadas con la gestión interna de la clínica, como información de pacientes, citas, historial clínico, recetas, 
+        doctores y configuración general.
 
-        Utiliza exclusivamente la información proporcionada en el contexto para responder. Si la pregunta no está relacionada con el entorno interno de la clínica o no encuentras suficiente información, responde que no tienes datos disponibles.
+        Utiliza exclusivamente la información proporcionada en el contexto para responder. Si la pregunta no está relacionada con el entorno 
+        interno de la clínica o no encuentras suficiente información, responde que no tienes datos disponibles.
 
         Contexto:
         {context}
