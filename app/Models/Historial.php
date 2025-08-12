@@ -23,4 +23,9 @@ class Historial extends Model
     {
         return $this->belongsTo(User::class, 'id_doctor');
     }
+
+    public function cita()
+    {
+        return $this->belongsTo(Citas::class, 'id_cita');
+    }
 }

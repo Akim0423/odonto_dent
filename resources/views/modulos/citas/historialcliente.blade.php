@@ -20,6 +20,7 @@
                             <tr>
                                 <th>Fecha</th>
                                 <th>Doctor</th>
+                                <th>Motivo</th>
                                 <th>Nota</th>
                                 <th></th>
                             </tr>
@@ -31,6 +32,7 @@
                                 <tr>
                                     <td>{{$hist->fecha}}</td>
                                     <td>{{$hist->DOCTOR->name}}</td>
+                                    <td>{{$hist->cita->especialidad->nombre ?? 'Sin especialidad'}}</td>
                                     <td>{!!$hist->nota!!}</td>
                                     <td> 
 

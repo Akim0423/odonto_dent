@@ -49,8 +49,9 @@ margin: 15px 20px;
 }
 
 body.login-page{
-    background-image: url(../../storage/app/public/b3.jpg);
+    background-image: url(../../storage/app/public/DeWatermark.ai_1754779677559.jpeg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
 }
